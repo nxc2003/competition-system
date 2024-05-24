@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 搜索表单 -->
     <SearchForm
       ref="searchForm"
       :options="searchOptions"
@@ -8,6 +9,7 @@
       @reset="search"
     />
 
+    <!-- 权限列表表格 -->
     <AntTable
       :loading="loading"
       :bordered="false"
@@ -16,6 +18,7 @@
       :pagination="pagination"
       @change="changePage"
     >
+      <!-- 表头部分，包含添加权限按钮 -->
       <template #header>
         <a-button
           v-if="$has('permission:add')"
@@ -40,13 +43,13 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      current: 1,
-      pageSize: 10,
-      total: 0,
-      tableData: [],
-      searchOptions: createSearchOptions.call(this),
-      columns: createTableColumns.call(this, this.$createElement),
+      loading: false,  // 是否正在加载数据
+      current: 1,  // 当前页码
+      pageSize: 10,  // 每页显示的记录数
+      total: 0,  // 总记录数
+      tableData: [],  // 表格数据
+      searchOptions: createSearchOptions.call(this),  // 搜索选项
+      columns: createTableColumns.call(this, this.$createElement),  // 表格列配置
     };
   },
   computed: {
@@ -59,17 +62,21 @@ export default {
     },
   },
   mounted() {
+    // 监听分页信息的变化，立即获取数据
     this.$watch(() => [this.pageSize, this.current], this.getData, { immediate: true });
   },
   methods: {
     changePage({ pageSize, current }) {
+      // 更新分页信息并获取数据
       Object.assign(this, { pageSize, current });
     },
     search() {
+      // 执行搜索操作时重置当前页码并获取数据
       this.current = 1;
       this.getData();
     },
     getData() {
+      // 获取数据
       this.loading = true;
       this.$api.getPermissions({
         ...this.$refs.searchForm.getResult(),
@@ -86,6 +93,7 @@ export default {
       });
     },
     addPermission() {
+      // 添加权限
       let vnode;
       this.$confirm({
         title: '添加权限',
@@ -103,6 +111,7 @@ export default {
       });
     },
     edit(row) {
+      // 编辑权限
       let vnode;
       this.$confirm({
         title: '编辑权限',
@@ -121,6 +130,7 @@ export default {
       });
     },
     remove(row) {
+      // 删除权限
       this.$modal.confirm({
         title: `确认删除 ${row.label}?`,
         onOk: () => this.$api.deletePermission([row.id]).then(() => {
@@ -136,6 +146,7 @@ export default {
   },
 };
 
+// 创建搜索选项
 function createSearchOptions() {
   return [
     {
@@ -171,6 +182,7 @@ function createSearchOptions() {
   ];
 }
 
+// 创建表格列
 function createTableColumns(h) {
   return [
     { title: '编号', dataIndex: 'id' },

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 搜索表单 -->
     <SearchForm
       ref="searchForm"
       :options="searchOptions"
@@ -8,6 +9,7 @@
       @reset="search"
     />
 
+    <!-- 角色列表表格 -->
     <AntTable
       :loading="loading"
       :bordered="false"
@@ -17,11 +19,13 @@
       :scroll="{ x: 500 }"
       @change="changePage"
     >
+      <!-- 表头部分，包含添加角色按钮 -->
       <template #header>
         <a-button v-if="$has('role:add')" type="primary" @click="addRole">
           <a-icon type="plus" />添加角色
         </a-button>
       </template>
+      <!-- 展开的行内容，显示角色的权限 -->
       <template #expandedRowRender="record">
         <div
           class="permissions"
@@ -48,19 +52,19 @@
 import EditRole from '@/components/edit/EditRole';
 
 export default {
-  name: 'PermissionList',
+  name: 'RoleList',
   metaInfo: {
-    title: '角色管理',
+    title: '角色管理',  // 页面标题
   },
   data() {
     return {
-      loading: false,
-      current: 1,
-      pageSize: 10,
-      total: 0,
-      tableData: [],
-      searchOptions: createSearchOptions.call(this),
-      columns: createTableColumns.call(this, this.$createElement),
+      loading: false,  // 加载状态
+      current: 1,  // 当前页码
+      pageSize: 10,  // 每页显示的记录数
+      total: 0,  // 总记录数
+      tableData: [],  // 表格数据
+      searchOptions: createSearchOptions.call(this),  // 搜索选项
+      columns: createTableColumns.call(this, this.$createElement),  // 表格列配置
     };
   },
   computed: {
@@ -73,17 +77,21 @@ export default {
     },
   },
   mounted() {
+    // 监听分页信息的变化，立即获取数据
     this.$watch(() => [this.pageSize, this.current], this.getData, { immediate: true });
   },
   methods: {
     changePage({ pageSize, current }) {
+      // 更新分页信息并获取数据
       Object.assign(this, { pageSize, current });
     },
     search() {
+      // 执行搜索操作时重置当前页码并获取数据
       this.current = 1;
       this.getData();
     },
     getData() {
+      // 获取数据
       this.loading = true;
       this.$api.getRoles({
         ...this.$refs.searchForm.getResult(),
@@ -99,6 +107,7 @@ export default {
       });
     },
     addRole() {
+      // 添加角色
       let vnode;
       this.$drawer({
         title: '添加角色',
@@ -116,6 +125,7 @@ export default {
       });
     },
     edit(row) {
+      // 编辑角色
       let vnode;
       this.$drawer({
         title: '编辑角色',
@@ -134,6 +144,7 @@ export default {
       });
     },
     remove(row) {
+      // 删除角色
       this.$modal.confirm({
         title: `确认删除 ${row.label}?`,
         onOk: () => this.$api.deleteRole([row.id]).then(() => {
@@ -147,6 +158,7 @@ export default {
       });
     },
     group(permissions) {
+      // 按权限类型分组
       const result = {};
       for (const { type, action, label } of permissions) {
         const item = { action, label };
@@ -158,6 +170,7 @@ export default {
   },
 };
 
+// 创建搜索选项
 function createSearchOptions() {
   return [
     {
@@ -181,6 +194,7 @@ function createSearchOptions() {
   ];
 }
 
+// 创建表格列
 function createTableColumns(h) {
   return [
     { title: '角色编号', dataIndex: 'id', width: 80 },

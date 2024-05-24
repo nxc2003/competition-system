@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- SearchForm 组件用于实现搜索功能 -->
     <SearchForm
       ref="searchForm"
       :loading="loading"
@@ -8,7 +9,7 @@
       @reset="search"
     />
 
-    <!--信息列表-->
+    <!-- AntTable 组件用于显示赛事信息表格 -->
     <AntTable
       v-model="selectedKeys"
       row-key="race_id"
@@ -18,6 +19,7 @@
       :columns="tableColumns"
       @change="changePage"
     >
+      <!-- 表格头部定义，包含添加、批量删除和导出按钮 -->
       <template #header>
         <a-button-group>
           <a-button v-if="$has('race:add')" type="primary" @click="addRace">
@@ -39,6 +41,7 @@
           </a-button>
         </a-button-group>
       </template>
+      <!-- 表格行操作定义，包括成绩录入、编辑和删除 -->
       <template #action="record">
         <a-space>
           <!-- 成绩录入 -->
@@ -71,39 +74,40 @@
   </div>
 </template>
 
+
 <script>
-import { raceLevelMap, raceLevels } from '@/utils/const';
-import { exportData } from '@/utils/excel';
-import EditRace from '@/components/edit/EditRace';
-import AddRecord from '@/components/record/AddRecord';
+import { raceLevelMap, raceLevels } from '@/utils/const';  // 导入赛事级别的映射和列表
+import { exportData } from '@/utils/excel';  // 导入 Excel 导出函数
+import EditRace from '@/components/edit/EditRace';  // 导入编辑赛事组件
+import AddRecord from '@/components/record/AddRecord';  // 导入添加记录组件
 
 export default {
-  name: 'Race',
-  metaInfo: {
+  name: 'Race',  // 组件名称
+  metaInfo: {  // 页面元信息
     title: '赛事管理',
   },
   data() {
     return {
-      selectedKeys: [],
-      loading: false,
-      exporting: false,
-      races: [],
-      current: 1,
-      pageSize: 10,
-      total: 0,
-      tableColumns: createTableColumns.call(this),
-      searchOptions: createSearchOptions.call(this),
+      selectedKeys: [],  // 被选中的行的 key 数组
+      loading: false,  // 表示表格数据是否在加载中
+      exporting: false,  // 表示是否正在导出数据
+      races: [],  // 赛事数据数组
+      current: 1,  // 当前页码
+      pageSize: 10,  // 每页显示的记录数
+      total: 0,  // 总记录数
+      tableColumns: createTableColumns.call(this),  // 表格列的配置
+      searchOptions: createSearchOptions.call(this),  // 搜索表单的配置
     };
   },
   computed: {
-    pagination() {
+    pagination() {  // 计算分页参数
       return {
         current: this.current,
         pageSize: this.pageSize,
         total: this.total,
       };
     },
-    isStudent() {
+    isStudent() {  // 判断当前用户是否为学生
       return this.$store.state.user.identity === 'student' || false;
     },
   },
@@ -111,14 +115,14 @@ export default {
     this.$watch(() => [this.pageSize, this.current], this.getData, { immediate: true });
   },
   methods: {
-    changePage({ pageSize, current }) {
+    changePage({ pageSize, current }) {  // 分页、排序、筛选变化时触发
       Object.assign(this, { pageSize, current });
     },
-    search() {
+    search() {  // 搜索表单提交
       this.current = 1;
       this.getData();
     },
-    getData() {
+    getData() {  // 获取赛事数据
       this.loading = true;
       this.$api.getRaceList({
         ...this.$refs.searchForm.getResult(),
@@ -134,7 +138,7 @@ export default {
         this.loading = false;
       });
     },
-    addRace() {
+    addRace() {  // 添加赛事
       let vnode;
       this.$confirm({
         title: '新增赛事',
@@ -151,7 +155,7 @@ export default {
         },
       });
     },
-    editRace(race) {
+    editRace(race) {  // 编辑赛事
       let vnode;
       this.$confirm({
         title: '编辑赛事',
@@ -169,7 +173,7 @@ export default {
         },
       });
     },
-    deleteRace(race) {
+    deleteRace(race) {  // 删除赛事
       this.loading = true;
       this.$api.deleteRace([race.race_id]).then(data => {
         this.$message.success(data.msg);
@@ -181,7 +185,7 @@ export default {
         this.loading = false;
       });
     },
-    batchDelete() {
+    batchDelete() {  // 批量删除赛事
       this.$modal.confirm({
         title: `确认删除选中的${this.selectedKeys.length}项数据?`,
         onOk: () => this.$api.deleteRace(this.selectedKeys)
@@ -195,7 +199,7 @@ export default {
           }),
       });
     },
-    addRecord(race) {
+    addRecord(race) {  // 添加记录
       let vnode;
       this.$confirm({
         title: '成绩录入',
@@ -217,7 +221,7 @@ export default {
         },
       });
     },
-    exportAll() {
+    exportAll() {  // 全量导出
       this.exporting = true;
       this.$api.getRaceList(this.query).then(data => {
         return exportExcel(data.data);
@@ -231,6 +235,7 @@ export default {
   },
 };
 
+
 function createTableColumns() {
   return [
     { title: '赛事名称', dataIndex: 'title' },
@@ -243,33 +248,12 @@ function createTableColumns() {
     {
       title: '操作',
       align: 'center',
-      scopedSlots: {
-        customRender: 'action',
-      },
+      scopedSlots: { customRender: 'action' },
     },
   ];
 }
 
-function exportExcel(data) {
-  const header = createTableColumns().map(v => v.title);
-  header.pop(); // 去掉最后一栏操作栏
-  return exportData({
-    name: '赛事信息',
-    data,
-    header,
-    keyMap: {
-      title: '赛事名称',
-      level: ['级别', level => raceLevelMap[level]],
-      sponsor: '主办方',
-      type: '类别',
-      description: '描述',
-      location: '地点',
-      date: '举办时间',
-      create_time: '创建时间',
-      update_time: '修改时间',
-    },
-  });
-}
+
 
 function createSearchOptions() {
   return [
@@ -321,4 +305,5 @@ function createSearchOptions() {
     },
   ];
 }
+
 </script>

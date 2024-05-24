@@ -9,6 +9,7 @@
       @edit="editPage"
       @contextmenu="onContextmenu"
     >
+      <!-- 遍历 pageList 数组，生成标签页 -->
       <a-tab-pane v-for="page in pageList" :key="page.fullPath">
         <template #tab>
           <span :data-key="page.fullPath">
@@ -17,11 +18,13 @@
         </template>
       </a-tab-pane>
     </a-tabs>
+    <!-- 页面切换过渡动画 -->
     <PageToggleTransition name="fadeIn">
-      <keep-alive :exclude="dustbin">
-        <router-view />
+      <keep-alive :exclude="dustbin">  <!-- 缓存路由视图，排除 dustbin 中的组件 -->
+        <router-view />  <!-- 路由视图 -->
       </keep-alive>
     </PageToggleTransition>
+    <!-- 右键菜单组件 -->
     <ContextMenu
       :list="menuItems"
       :visible.sync="menuVisible"
@@ -31,21 +34,21 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue';
-import { last } from 'lodash-es';
-import ContextMenu from '../components/common/ContextMenu';
-import PageToggleTransition from '../components/transition/PageToggleTransition';
+import { message } from 'ant-design-vue';  // 导入 Ant Design Vue 的消息提示组件
+import { last } from 'lodash-es';  // 导入 Lodash 库的 last 函数
+import ContextMenu from '../components/common/ContextMenu';  // 导入自定义的 ContextMenu 组件
+import PageToggleTransition from '../components/transition/PageToggleTransition';  // 导入自定义的 PageToggleTransition 组件
 
 export default {
-  name: 'TabLayout',
-  components: { PageToggleTransition, ContextMenu },
+  name: 'TabLayout',  // 组件名称
+  components: { PageToggleTransition, ContextMenu },  // 注册组件
   data() {
     return {
-      pageList: [],
-      dustbin: [],
-      activePage: '',
-      menuVisible: false,
-      menuItems: [
+      pageList: [],  // 页面列表
+      dustbin: [],  // 用于缓存控制的 dustbin
+      activePage: '',  // 当前激活的页面
+      menuVisible: false,  // 右键菜单可见性
+      menuItems: [  // 右键菜单项列表
         { key: '1', icon: 'arrow-left', text: '关闭左侧' },
         { key: '2', icon: 'arrow-right', text: '关闭右侧' },
         { key: '3', icon: 'close', text: '关闭其它' },
@@ -54,13 +57,13 @@ export default {
   },
   watch: {
     $route: {
-      immediate: true,
+      immediate: true,  // 立即执行
       handler(route) {
-        this.activePage = route.fullPath;
-        this.putCache(route);
+        this.activePage = route.fullPath;  // 设置当前激活的页面
+        this.putCache(route);  // 将当前路由放入缓存
         const index = this.pageList.findIndex(item => item.fullPath === route.fullPath);
         if (index === -1) {
-          this.pageList.push(route);
+          this.pageList.push(route);  // 如果页面列表中不存在当前路由，则添加到页面列表
         }
       },
     },
@@ -70,30 +73,28 @@ export default {
       console.log(data);
     },
     changePage(key) {
-      this.activePage = key;
-      this.$router.push(key);
+      this.activePage = key;  // 更新当前激活的页面
+      this.$router.push(key);  // 跳转到对应的路由
     },
     editPage(key, action) {
       if (action === 'remove') {
-        this.remove(key);
+        this.remove(key);  // 如果操作是删除，则调用 remove 方法
       }
     },
     remove(key) {
       if (this.pageList.length <= 1) {
-        return message.info('最后一页了哦~');
+        return message.info('最后一页了哦~');  // 如果页面列表中只有一个页面，则提示用户
       }
       let curIndex = this.pageList.findIndex(item => item.fullPath === key);
       const { matched } = this.pageList[curIndex];
       const componentName = last(matched).components.default.name;
-      this.dustbin.push(componentName);
-      this.pageList.splice(curIndex, 1);
-      // 如果删除的是当前页才需要跳转
+      this.dustbin.push(componentName);  // 将组件名称添加到 dustbin 中
+      this.pageList.splice(curIndex, 1);  // 从页面列表中删除当前页面
       if (key === this.activePage) {
-        // 判断向左跳还是向右跳
         curIndex = curIndex >= this.pageList.length ? this.pageList.length - 1 : curIndex;
         const page = this.pageList[curIndex];
         this.$router.push(page.fullPath).finally(() => {
-          this.dustbin.splice(0); // 重置，否则会影响到某些组件的缓存
+          this.dustbin.splice(0);  // 重置 dustbin，否则会影响到某些组件的缓存
         });
       }
     },
@@ -105,7 +106,7 @@ export default {
       if (!key) return;
 
       e.preventDefault();
-      this.menuVisible = true;
+      this.menuVisible = true;  // 显示右键菜单
     },
     onMenuSelect(key, target) {
       const tabKey = getTabKey(target);
@@ -120,11 +121,11 @@ export default {
       const index = this.pageList.findIndex(item => item.fullPath === tabKey);
       for (const route of this.pageList) {
         if (route.fullPath !== tabKey) {
-          this.clearCache(route);
+          this.clearCache(route);  // 清除缓存
         }
       }
       const page = this.pageList[index];
-      this.pageList = [page];
+      this.pageList = [page];  // 只保留当前页
       this.activePage = page.fullPath;
       this.$router.push(this.activePage).catch(e => e);
     },
@@ -132,12 +133,11 @@ export default {
       const index = this.pageList.findIndex(item => item.fullPath === tabKey);
       this.pageList.forEach((route, i) => {
         if (i < index) {
-          this.clearCache(route);
+          this.clearCache(route);  // 清除缓存
         }
       });
       const restPages = this.pageList.slice(index);
       this.pageList = restPages;
-      // 判断当前activePage是否在将要删除的页面中
       const curActivePage = restPages.find(item => item.fullPath === this.activePage);
       if (!curActivePage) {
         this.activePage = restPages[0].fullPath;
@@ -148,12 +148,11 @@ export default {
       const index = this.pageList.findIndex(item => item.fullPath === tabKey);
       this.pageList.forEach((route, i) => {
         if (i > index) {
-          this.clearCache(route);
+          this.clearCache(route);  // 清除缓存
         }
       });
       const restPages = this.pageList.slice(0, index + 1);
       this.pageList = restPages;
-      // 判断当前activePage是否在将要删除的页面中
       const curActivePage = restPages.find(item => item.fullPath === this.activePage);
       if (!curActivePage) {
         this.activePage = last(restPages).fullPath;
@@ -165,12 +164,12 @@ export default {
      */
     clearCache(route) {
       const componentName = last(route.matched).components.default.name;
-      this.dustbin.push(componentName); // 清除
+      this.dustbin.push(componentName);  // 清除缓存
     },
     putCache(route) {
       const componentName = last(route.matched).components.default.name;
       if (this.dustbin.includes(componentName)) {
-        this.dustbin = this.dustbin.filter(item => item !== componentName);
+        this.dustbin = this.dustbin.filter(item => item !== componentName);  // 从 dustbin 中移除
       }
     },
   },
@@ -186,14 +185,15 @@ function getTabKey(target, depth = 0) {
   if (depth > 2 || !target) {
     return null;
   }
-  return target.dataset.key || getTabKey(target.firstElementChild, ++depth);
+  return target.dataset.key || getTabKey(target.firstElementChild, ++depth);  // 递归查找 data-key 属性
 }
 </script>
 
+
 <style scoped lang="stylus">
 .tab-bar >>> .ant-tabs-bar
-  margin-bottom 0
+  margin-bottom 0  // 设置 Tab Bar 的下外边距为 0
 
 .breadcrumb
-  margin-bottom 10px
+  margin-bottom 10px  // 设置面包屑导航的下外边距为 10px
 </style>

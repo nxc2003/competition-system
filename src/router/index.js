@@ -1,14 +1,17 @@
+// 导入 Vue 框架
 import Vue from 'vue';
+// 导入 Vue Router 库
 import VueRouter from 'vue-router';
+// 导入全局布局组件
 import GlobalLayout from '@/layouts/GlobalLayout';
-
+// 告诉 Vue 使用 VueRouter 插件
 Vue.use(VueRouter);
-
+// 定义一个名为 RouteView 的组件，用于渲染嵌套路由
 const RouteView = {
   name: 'RouteView',
   render: h => h('router-view'),
 };
-
+// 定义路由配置数组
 export const routes = [
   {
     path: '/',
@@ -98,16 +101,18 @@ export const routes = [
   },
 ];
 
+// 创建 VueRouter 实例，并传入路由配置
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes,
+  mode: 'history', // 使用 HTML5 History 模式
+  base: process.env.BASE_URL, // 基础路径
+  routes, // 路由配置数组
 });
 
 /**
- * 根据权限过滤路由，生成pro-layout需要的menu
- * @param {[]} routes
- * @param {[]} permission 当前用户拥有的权限
+ * 根据权限过滤路由，生成 pro-layout 需要的菜单
+ * @param {[]} routes - 路由配置数组
+ * @param {[]} permission - 当前用户拥有的权限
+ * @returns {[]} 过滤后的路由配置数组
  */
 export function filterRoutes(routes, permission) {
   const set = new Set(permission);
@@ -122,7 +127,7 @@ export function filterRoutes(routes, permission) {
           const children = filter(route.children);
           route.children = children;
           if (!children.length) {
-            route.hidden = true; // pro-layout隐藏菜单
+            route.hidden = true; // pro-layout 隐藏菜单
           }
         }
       }
@@ -133,4 +138,5 @@ export function filterRoutes(routes, permission) {
   return filter(routes);
 }
 
+// 导出 VueRouter 实例
 export default router;

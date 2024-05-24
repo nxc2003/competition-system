@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- 搜索表单组件 -->
     <SearchForm
       ref="searchForm"
       :loading="loading"
@@ -8,7 +9,7 @@
       @reset="search"
     />
 
-    <!--信息列表-->
+    <!-- 信息列表 -->
     <AntTable
       v-model="selectedKeys"
       row-key="tid"
@@ -20,9 +21,11 @@
     >
       <template #header>
         <a-button-group>
+          <!-- 添加教师按钮 -->
           <a-button v-if="$has('user:add')" type="primary" @click="addUser">
             添加教师
           </a-button>
+          <!-- 批量删除按钮 -->
           <a-button
             v-if="$has('user:delete')"
             :disabled="!selectedKeys.length"
@@ -30,9 +33,11 @@
           >
             批量删除 ({{ selectedKeys.length }})
           </a-button>
+          <!-- 导入按钮 -->
           <a-button v-if="$has('user:import')" @click="$refs.import.show()">
             Excel导入
           </a-button>
+          <!-- 导出按钮 -->
           <a-button
             v-if="$has('user:export')"
             :loading="exporting"
@@ -42,15 +47,15 @@
           </a-button>
         </a-button-group>
       </template>
+      <!-- 操作列 -->
       <template #action="record">
         <a-space>
           <template v-if="$has('user:update')">
-            <!--编辑-->
+            <!-- 编辑 -->
             <a @click="editUser(record)">
               <a-icon type="edit" />
             </a>
-
-            <!--重置密码-->
+            <!-- 重置密码 -->
             <a-popconfirm
               title="确认重置密码？"
               ok-text="确认"
@@ -68,14 +73,12 @@
                 <a><a-icon type="rollback" /></a>
               </a-tooltip>
             </a-popconfirm>
-
-            <!--授权-->
+            <!-- 授权 -->
             <a @click="grantRole(record)">
               <a-icon type="key" />
             </a>
           </template>
-
-          <!--删除-->
+          <!-- 删除 -->
           <a-popconfirm
             title="确认删除？"
             ok-text="确认"
@@ -92,6 +95,7 @@
       </template>
     </AntTable>
 
+    <!-- 用户导入组件 -->
     <UserImport type="teacher" ref="import" @refresh="search" />
   </div>
 </template>

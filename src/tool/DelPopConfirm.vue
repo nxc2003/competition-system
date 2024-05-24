@@ -19,13 +19,13 @@
 
 <script>
 export default {
-  name: 'DelPopConfirm',
+  name: 'DelPopConfirm', // 组件名称
   computed: {
     props() {
       return {
-        title: '确认删除？',
-        placement: 'left',
-        ...this.$attrs,
+        title: '确认删除？', // 默认提示信息
+        placement: 'left',  // 默认弹出位置为左侧
+        ...this.$attrs,     // 合并父组件传递的属性
       };
     },
   },

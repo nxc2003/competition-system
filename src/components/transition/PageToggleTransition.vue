@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  name: 'PageToggleTransition',
+  name: 'PageToggleTransition', // 组件名称
   props: {
-    name: String,
+    name: String, // 传递动画名称
   },
 };
 </script>

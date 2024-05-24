@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 搜索表单组件 -->
     <SearchForm
       ref="searchForm"
       :loading="loading"
@@ -8,7 +9,7 @@
       @reset="search"
     />
 
-    <!--信息列表-->
+    <!-- 信息列表 -->
     <AntTable
       v-model="selectedKeys"
       row-key="record_id"
@@ -18,6 +19,7 @@
       :columns="tableColumns"
       @change="changePage"
     >
+      <!-- 表头部分，包含操作按钮 -->
       <template #header>
         <a-button-group>
           <a-button
@@ -36,6 +38,7 @@
           </a-button>
         </a-button-group>
       </template>
+      <!-- 行操作部分 -->
       <template #action="record">
         <RecordAction :record="record" :fresh-data="getData" />
       </template>
@@ -76,17 +79,21 @@ export default {
     },
   },
   mounted() {
+    // 页面加载完成后立即获取数据
     this.$watch(() => [this.pageSize, this.current], this.getData, { immediate: true });
   },
   methods: {
     changePage({ pageSize, current }) {
+      // 更新分页信息并重新获取数据
       Object.assign(this, { pageSize, current });
     },
     search() {
+      // 执行搜索时重置页码并获取数据
       this.current = 1;
       this.getData();
     },
     getData() {
+      // 从API获取数据
       this.loading = true;
       this.$api.getRecordList({
         ...this.$refs.searchForm.getResult(),
@@ -103,6 +110,7 @@ export default {
       });
     },
     batchDelete() {
+      // 执行批量删除操作
       this.$modal.confirm({
         title: `确认删除选中的${this.selectedKeys.length}项数据?`,
         onOk: () => this.$api.deleteRecord(this.selectedKeys)
@@ -117,6 +125,7 @@ export default {
       });
     },
     exportAll() {
+      // 执行数据导出操作
       this.exporting = true;
       this.$api.getRecordList(this.query).then(data => {
         return exportExcel(data.data);
@@ -130,11 +139,14 @@ export default {
   },
 };
 
+// 状态映射对象
 const statusMap = {
   0: { style: 'color: lightgrey', type: 'question-circle', text: '待审核' },
   1: { style: 'color: limegreen', type: 'check-circle', text: '审核通过' },
   2: { style: 'color: red', type: 'exclamation-circle', text: '审核失败' },
 };
+
+// 创建表格列的函数
 function createTableColumns(h) {
   return [
     { title: '名称', dataIndex: 'title' },
@@ -165,6 +177,7 @@ function createTableColumns(h) {
   ];
 }
 
+// 导出数据为Excel文件
 function exportExcel(data) {
   const header = createTableColumns().map(v => v.title);
   header.pop(); // 去掉最后一栏操作栏
@@ -185,6 +198,7 @@ function exportExcel(data) {
   });
 }
 
+// 创建搜索选项的函数
 function createSearchOptions() {
   return [
     {

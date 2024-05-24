@@ -7,7 +7,7 @@
     :destroy-on-close="true"
     @close="$emit('update:visible', false)"
   >
-    <!--比赛记录详情显示——纯展示-->
+    <!-- 比赛记录详情显示——纯展示 -->
     <a-descriptions :title="record.title">
       <a-descriptions-item label="参赛人">
         {{ record.sname }}
@@ -21,16 +21,10 @@
       <a-descriptions-item label="指导教师">
         {{ record.tname || '暂无' }}
       </a-descriptions-item>
-      <a-descriptions-item
-        :span="2"
-        label="教师工号"
-      >
+      <a-descriptions-item :span="2" label="教师工号">
         {{ record.tid || '暂无' }}
       </a-descriptions-item>
-      <a-descriptions-item
-        label="成绩"
-        :span="3"
-      >
+      <a-descriptions-item label="成绩" :span="3">
         {{ record.score ? record.score : '暂无详情' }}
       </a-descriptions-item>
       <a-descriptions-item label="当前状态">
@@ -39,40 +33,25 @@
           <span> 未审核</span>
         </template>
         <template v-else-if="recordState === 'fulfilled'">
-          <a-icon
-            style="color: limegreen"
-            type="check-circle"
-          />
+          <a-icon style="color: limegreen" type="check-circle" />
           <span style="color: limegreen">
             {{ record.description || '通过' }}
           </span>
         </template>
         <template v-else>
-          <a-icon
-            style="color: red"
-            type="exclamation-circle"
-          />
-          <span
-            style="color: red"
-            :title="record.state"
-          >
+          <a-icon style="color: red" type="exclamation-circle" />
+          <span style="color: red" :title="record.state">
             {{ record.description || '审核失败' }}
           </span>
         </template>
       </a-descriptions-item>
     </a-descriptions>
 
-    <!--以下内容未上传文件时不显示-->
+    <!-- 以下内容未上传文件时不显示 -->
     <template v-if="record.uploaded">
-      <!--附件详情-->
-      <a-spin
-        tip="Loading..."
-        :spinning="loading"
-      >
-        <a-descriptions
-          :column="2"
-          title="附件详情"
-        >
+      <!-- 附件详情 -->
+      <a-spin tip="Loading..." :spinning="loading">
+        <a-descriptions :column="2" title="附件详情">
           <a-descriptions-item label="文件类型">
             {{ info.mimeType }}
           </a-descriptions-item>
@@ -85,25 +64,18 @@
         </a-descriptions>
       </a-spin>
 
-      <!--操作按钮-->
+      <!-- 操作按钮 -->
       <div class="action">
         <h3>操作</h3>
         <p style="color: grey">
           重新上传后，预览文件若未刷新，可稍后再试，下载不受影响。
         </p>
         <a-button-group>
-          <a-button
-            type="link"
-            style="padding-left: 0"
-            @click="download"
-          >
+          <a-button type="link" style="padding-left: 0" @click="download">
             <a-icon type="cloud-download" />
             附件下载
           </a-button>
-          <a-button
-            type="link"
-            @click="preview"
-          >
+          <a-button type="link" @click="preview">
             <a-icon type="eye" />
             文件预览
           </a-button>
@@ -149,7 +121,7 @@ export default {
   },
   watch: {
     visible(newVal) {
-      // 当前状态为：可见并且已上传文件 时，才请求文件信息
+      // 当前状态为：可见并且已上传文件时，才请求文件信息
       if (newVal && this.record.uploaded) {
         this.initFileInfo();
       }

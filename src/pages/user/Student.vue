@@ -98,18 +98,19 @@
 </template>
 
 <script>
-import { grades, gradeMap, sexes, sexMap } from '@/utils/const';
-import { exportData } from '@/utils/excel';
-import createColumns from '@/helpers/importuser-columns';
-import EditStudent from '@/components/edit/EditStudent';
-import UserImport from '@/components/common/UserImport';
-import GrantRole from '@/components/common/GrantRole';
+import { grades, gradeMap, sexes, sexMap } from '@/utils/const'; // 引入常量
+import { exportData } from '@/utils/excel'; // 引入导出数据的方法
+import createColumns from '@/helpers/importuser-columns'; // 引入创建列的方法
+import EditStudent from '@/components/edit/EditStudent'; // 引入编辑学生组件
+import UserImport from '@/components/common/UserImport'; // 引入用户导入组件
+import GrantRole from '@/components/common/GrantRole'; // 引入授权角色组件
 
+// 定义学生表格的列配置
 const STUDENT_COLUMNS = [
   { title: '学号', dataIndex: 'sid' },
   { title: '姓名', dataIndex: 'name' },
-  { title: '性别', customRender: ({ sex }) => sexMap[sex] },
-  { title: '年级', customRender: ({ grade }) => gradeMap[grade] },
+  { title: '性别', customRender: ({ sex }) => sexMap[sex] }, // 使用性别映射
+  { title: '年级', customRender: ({ grade }) => gradeMap[grade] }, // 使用年级映射
   { title: '班级', dataIndex: 'class' },
   { title: '创建时间', dataIndex: 'create_time' },
   { title: '修改时间', dataIndex: 'update_time' },
@@ -117,10 +118,11 @@ const STUDENT_COLUMNS = [
     title: '操作',
     align: 'center',
     width: 100,
-    scopedSlots: { customRender: 'action' },
+    scopedSlots: { customRender: 'action' }, // 操作列
   },
 ];
 
+// 定义导出Excel的方法
 function exportExcel(data) {
   const header = STUDENT_COLUMNS.map(v => v.title);
   header.pop(); // 去掉最后一栏操作栏
@@ -131,8 +133,8 @@ function exportExcel(data) {
     keyMap: {
       sid: '学号',
       name: '姓名',
-      sex: ['性别', sex => sexMap[sex]],
-      grade: ['年级', grade => gradeMap[grade]],
+      sex: ['性别', sex => sexMap[sex]], // 使用性别映射
+      grade: ['年级', grade => gradeMap[grade]], // 使用年级映射
       class: '班级',
       create_time: '创建时间',
       update_time: '修改时间',
@@ -143,33 +145,33 @@ function exportExcel(data) {
 export default {
   name: 'Student',
   metaInfo: {
-    title: '学生管理',
+    title: '学生管理', // 页面标题
   },
   components: {
     UserImport,
   },
   data() {
     return {
-      loading: false,
-      exporting: false,
-      query: {},
-      selectedKeys: [],
-      users: [],
-      current: 1,
-      pageSize: 10,
-      total: 0,
-      tableColumns: STUDENT_COLUMNS,
+      loading: false, // 是否在加载
+      exporting: false, // 是否在导出
+      query: {}, // 查询参数
+      selectedKeys: [], // 选中的键
+      users: [], // 学生数据
+      current: 1, // 当前页码
+      pageSize: 10, // 每页条数
+      total: 0, // 总条数
+      tableColumns: STUDENT_COLUMNS, // 表格列配置
     };
   },
   computed: {
     searchOptions() {
-      return createSearchOptions.call(this);
+      return createSearchOptions.call(this); // 创建搜索选项
     },
     curColumns() {
-      return createColumns(this.importUserType);
+      return createColumns(this.importUserType); // 获取当前列配置
     },
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user; // 获取当前用户
     },
     pagination() {
       return {
@@ -180,17 +182,21 @@ export default {
     },
   },
   mounted() {
+    // 监听分页变化，立即获取数据
     this.$watch(() => [this.pageSize, this.current], this.getData, { immediate: true });
   },
   methods: {
     search() {
+      // 执行搜索
       this.current = 1;
       this.getData();
     },
     changePage({ pageSize, current }) {
+      // 更改页码或每页条数
       Object.assign(this, { pageSize, current });
     },
     getData() {
+      // 获取数据
       this.loading = true;
       this.query = this.$refs.searchForm.getResult();
       this.$api.getUserList({
@@ -209,6 +215,7 @@ export default {
       });
     },
     resetPassword(row) {
+      // 重置密码
       const key = Date.now();
       this.$message.loading({
         key,
@@ -225,6 +232,7 @@ export default {
       });
     },
     addUser() {
+      // 添加用户
       let vnode;
 
       this.$confirm({
@@ -244,6 +252,7 @@ export default {
       });
     },
     editUser(row) {
+      // 编辑用户
       let vnode;
       this.$confirm({
         title: '修改信息',
@@ -265,6 +274,7 @@ export default {
       });
     },
     deleteUser(row) {
+      // 删除用户
       const key = Math.random();
       this.$message.loading({ content: '正在删除', duration: 0, key });
       this.$api.deleteUser('student', {
@@ -277,6 +287,7 @@ export default {
       });
     },
     batchDelete() {
+      // 批量删除用户
       this.$modal.confirm({
         title: `确认删除选中的${this.selectedKeys.length}项数据?`,
         onOk: () => this.$api.deleteUser('student', {
@@ -292,6 +303,7 @@ export default {
       });
     },
     exportAll() {
+      // 导出所有数据
       this.exporting = true;
       this.$api.getUserList({
         ...this.query,
@@ -306,6 +318,7 @@ export default {
       });
     },
     grantRole(item) {
+      // 授权角色
       let vnode;
       this.$confirm({
         title: '授权',
@@ -323,6 +336,7 @@ export default {
   },
 };
 
+// 创建搜索选项
 function createSearchOptions() {
   return [
     {

@@ -1,9 +1,11 @@
 <template>
+  <!-- 表单组件，使用 Ant Design Vue 的 Form 组件 -->
   <a-form
     :label-col="labelCol"
     :wrapper-col="wrapperCol"
     :form="form"
   >
+    <!-- 学号输入框 -->
     <a-form-item label="学号">
       <a-input
         v-decorator="decorator.sid"
@@ -18,6 +20,7 @@
         />
       </a-input>
     </a-form-item>
+    <!-- 密码输入框，仅在非编辑模式下显示 -->
     <a-form-item v-if="!isEdit" label="密码">
       <a-input
         ref="password"
@@ -32,6 +35,7 @@
         />
       </a-input>
     </a-form-item>
+    <!-- 姓名输入框 -->
     <a-form-item label="姓名">
       <a-input
         v-decorator="decorator.name"
@@ -39,6 +43,7 @@
         allowClear
       />
     </a-form-item>
+    <!-- 年级选择框 -->
     <a-form-item label="年级">
       <a-select
         v-decorator="decorator.grade"
@@ -47,6 +52,7 @@
         placeholder="年级"
       />
     </a-form-item>
+    <!-- 班级输入框 -->
     <a-form-item label="班级">
       <a-input
         v-decorator="decorator.class"
@@ -54,38 +60,41 @@
         allowClear
       />
     </a-form-item>
+    <!-- 性别单选框组 -->
     <a-form-item label="性别">
       <a-radio-group v-decorator="decorator.sex" :options="sexes" />
     </a-form-item>
   </a-form>
 </template>
 
+
 <script>
-import { pick } from 'lodash-es';
-import { grades, sexes } from '@/utils/const';
-import EditMixin from './edit-mixin';
+import { pick } from 'lodash-es';  // 从 lodash-es 导入 pick 函数，用于选择对象属性
+import { grades, sexes } from '@/utils/const';  // 从 utils/const 导入年级和性别选项
+import EditMixin from './edit-mixin';  // 导入 EditMixin 混入，用于共享表单编辑逻辑
 
 export default {
-  name: 'EditStudent',
-  mixins: [EditMixin],
+  name: 'EditStudent',  // 组件名称
+  mixins: [EditMixin],  // 使用 EditMixin 混入
   data() {
     return {
-      grades,
-      decorator,
-      sexes,
+      grades,  // 年级选项数据
+      decorator,  // 表单装饰器
+      sexes,  // 性别选项数据
     };
   },
   methods: {
+    // 初始化表单数据
     initData() {
       const { data } = this;
-      const result = pick(data, ['sid', 'name', 'sex', 'class', 'grade']);
-      this.form.setFieldsValue(result);
+      const result = pick(data, ['sid', 'name', 'sex', 'class', 'grade']);  // 选择需要的表单字段
+      this.form.setFieldsValue(result);  // 设置表单字段的值
     },
   },
 };
 
 /**
- * 定义decorator
+ * 定义表单装饰器
  */
 const decorator = {
   sid: ['sid', {
@@ -107,7 +116,7 @@ const decorator = {
     }],
   }],
   sex: ['sex', {
-    initialValue: 1,
+    initialValue: 1,  // 初始值为 1
   }],
   class: ['class', {
     rules: [{

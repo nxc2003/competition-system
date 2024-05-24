@@ -28,23 +28,23 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'; // 引入dayjs库
 
 export default {
-  name: 'Detail',
+  name: 'Detail', // 组件名称
   props: {
     race: {
-      type: Object,
-      required: true,
+      type: Object, // race属性是一个对象
+      required: true, // 该属性是必需的
     },
     records: {
-      type: Array,
-      required: true,
+      type: Array, // records属性是一个数组
+      required: true, // 该属性是必需的
     },
   },
   methods: {
     formatDate(date) {
-      return dayjs(date).format('YYYY-MM-DD');
+      return dayjs(date).format('YYYY-MM-DD'); // 格式化日期为'YYYY-MM-DD'格式
     },
   },
 };

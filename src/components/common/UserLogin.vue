@@ -62,28 +62,29 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'Login',  // 组件名称
   data() {
     return {
-      loading: false,
-      svg: '',
+      loading: false,  // 控制登录按钮的加载状态
+      svg: '',  // 验证码图片
       formData: {
-        account: '',
-        password: '',
-        code: '',
-        identity: 'student',
+        account: '',  // 用户账号
+        password: '',  // 用户密码
+        code: '',  // 验证码
+        identity: 'student',  // 用户身份，默认值为学生
       },
       rules: {
-        account: { required: true, message: '请输入学号/工号！' },
-        password: { required: true, message: '请输入密码！' },
-        code: { required: true, message: '请输入验证码！' },
+        account: { required: true, message: '请输入学号/工号！' },  // 账号验证规则
+        password: { required: true, message: '请输入密码！' },  // 密码验证规则
+        code: { required: true, message: '请输入验证码！' },  // 验证码验证规则
       },
     };
   },
   mounted() {
-    this.getCode();
+    this.getCode();  // 组件挂载后获取验证码
   },
   methods: {
+    // 获取验证码
     getCode() {
       this.formData.code = '';
       this.$api.getAuthCode().then(data => {
@@ -92,19 +93,20 @@ export default {
         this.$message.error(e.msg || '验证码获取失败');
       });
     },
+    // 提交表单
     async onSubmit(e) {
       e.preventDefault();
       try {
         this.loading = true;
-        await this.$refs.form.validate();
-        await this.$api.login(this.formData);
-        await this.$router.replace({ path: '/' }).catch(e => e);
+        await this.$refs.form.validate();  // 验证表单
+        await this.$api.login(this.formData);  // 登录请求
+        await this.$router.replace({ path: '/' }).catch(e => e);  // 跳转到主页
         this.$message.success(`${timeFix()}，欢迎回来`);
       } catch (e) {
-        if (!e) return; // 表单校验
+        if (!e) return;  // 表单验证失败
         console.error(e);
         this.getCode();
-        // 设置校验状态
+        // 设置表单校验状态
         if (e.code && e.msg) {
           const field = ({ 1: 'account', 2: 'password', 3: 'code' })[e.code];
           Object.assign(this.$refs[field], {
@@ -113,12 +115,13 @@ export default {
           });
         }
       } finally {
-        this.loading = false;
+        this.loading = false;  // 取消按钮加载状态
       }
     },
   },
 };
 
+// 根据时间返回问候语
 function timeFix() {
   const time = new Date();
   const hour = time.getHours();
@@ -126,39 +129,40 @@ function timeFix() {
 }
 </script>
 
+
 <style scoped lang="stylus">
 .login-form
-  width 300px
-  padding 20px
-  text-align left
-  border-radius 5px
-  background-color white
-  box-shadow 0 0 5px lightgrey
+  width 300px  // 表单宽度
+  padding 20px  // 表单内边距
+  text-align left  // 文本左对齐
+  border-radius 5px  // 圆角边框
+  background-color white  // 背景颜色为白色
+  box-shadow 0 0 5px lightgrey  // 盒子阴影
 
 .title
-  display flex
-  justify-content center
-  align-items center
-  margin-bottom 24px
-  font-size 24px
+  display flex  // 使用弹性布局
+  justify-content center  // 水平居中
+  align-items center  // 垂直居中
+  margin-bottom 24px  // 底部外边距
+  font-size 24px  // 字体大小
   *:last-child
-    margin-left 10px
+    margin-left 10px  // 最后一个子元素的左边距
 
 .identity
-  display flex
-  flex-flow row nowrap
-  justify-content space-between
+  display flex  // 使用弹性布局
+  flex-flow row nowrap  // 横向不换行
+  justify-content space-between  // 水平间距
 
 .login-form-bottom
-  margin-bottom 0
+  margin-bottom 0  // 底部外边距
   .login-button
-    margin-bottom 20px
+    margin-bottom 20px  // 按钮底部外边距
 
 .code-input
-  display flex
-  align-items center
-  height 32px
+  display flex  // 使用弹性布局
+  align-items center  // 垂直居中
+  height 32px  // 高度
   .code >>>
-    cursor pointer
-    min-width 100px
+    cursor pointer  // 鼠标指针样式为指针
+    min-width 100px  // 最小宽度
 </style>

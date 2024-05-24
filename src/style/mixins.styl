@@ -1,60 +1,61 @@
 @keyframes rotate
   0%
-    transform rotateZ(0deg)
+    transform rotateZ(0deg)  // 旋转动画从 0 度开始
   50%
-    transform rotateZ(180deg)
+    transform rotateZ(180deg)  // 旋转动画到 50% 时旋转到 180 度
   100%
-    transform rotateZ(360deg)
+    transform rotateZ(360deg)  // 旋转动画到 100% 时旋转到 360 度
 
 item-gap(w)
   &:before
-    content ''
-    display inline-block
-    margin 0 unit(w / 2, px)
+    content ''  // 插入一个空内容的伪元素
+    display inline-block  // 将伪元素设置为行内块级元素
+    margin 0 unit(w / 2, px)  // 设置伪元素的左右间距为参数 w 的一半
 
 inline-rtl()
-  display flex
-  justify-content flex-start
-  align-items center
+  display flex  // 使用 flex 布局
+  justify-content flex-start  // 子元素从起始位置排列
+  align-items center  // 子元素垂直居中对齐
 
 text-ellipsis()
-  overflow hidden
-  text-overflow ellipsis
-  white-space nowrap
+  overflow hidden  // 超出部分隐藏
+  text-overflow ellipsis  // 超出部分显示省略号
+  white-space nowrap  // 强制文本在一行显示
 
 center()
-  position absolute
-  left 50%
-  top 50%
-  transform translate(-50%, -50%)
+  position absolute  // 绝对定位
+  left 50%  // 水平位置居中
+  top 50%  // 垂直位置居中
+  transform translate(-50%, -50%)  // 使用 transform 将元素自身居中
 
 shadow($mode = 'around')
   if $mode is 'bottom'
-    box-shadow 0 5px 8px -5px shadow-color
+    box-shadow 0 5px 8px -5px shadow-color  // 如果模式是 'bottom'，则设置底部阴影
   else
-    box-shadow 0 0 5px shadow-color
+    box-shadow 0 0 5px shadow-color  // 否则设置四周阴影
 
 tab-nav()
-  padding 0 24px
-  border-bottom 1px solid divider-color
-  background-color white
+  padding 0 24px  // 设置内边距
+  border-bottom 1px solid divider-color  // 设置底部边框
+  background-color white  // 设置背景色为白色
   .bui-tabs-nav-item
-    margin-right 32px
+    margin-right 32px  // 设置导航项的右边距
   a.bui-tab-nav::after
-    height 4px
+    height 4px  // 设置导航链接下方的下划线高度
   a.bui-tab-nav
-    color second-text-color
-    padding 16px 0
+    color second-text-color  // 设置导航链接的文本颜色
+    padding 16px 0  // 设置内边距
     &::after
-      background-color primary-color
+      background-color primary-color  // 设置下划线的背景色
   li.active a
-    color primary-color
+    color primary-color  // 设置激活状态下的导航链接颜色
+
 table-common()
   .bui-table-ceil
-    font-size 12px
-    padding 10px
+    font-size 12px  // 设置单元格的字体大小
+    padding 10px  // 设置单元格的内边距
   .byted-link
-    font-size 12px
-    color primary-color
+    font-size 12px  // 设置链接的字体大小
+    color primary-color  // 设置链接的颜色
     &:not(:last-child)
-      margin-right 10px
+      margin-right 10px  // 设置非最后一个链接的右边距

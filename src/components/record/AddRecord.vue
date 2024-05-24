@@ -1,4 +1,5 @@
 <template>
+  <!-- 表单模型 -->
   <a-form-model
     ref="form"
     :label-col="{ span: 4 }"
@@ -6,9 +7,11 @@
     :model="formData"
     :rules="rules"
   >
+    <!-- 表单项：成绩 -->
     <a-form-model-item label="成绩" prop="score">
       <a-input v-model="formData.score" placeholder="比赛成绩" auto-focus />
     </a-form-model-item>
+    <!-- 表单项：导师 -->
     <a-form-model-item label="导师" prop="tid">
       <a-select
         v-model="formData.tid"
@@ -20,6 +23,7 @@
         :options="teachers"
         @search="onSearch"
       >
+        <!-- 加载中的旋转图标 -->
         <a-spin
           v-if="loading"
           slot="notFoundContent"
@@ -38,21 +42,27 @@ export default {
   name: 'AddRecord',
   data() {
     return {
+      // 教师列表
       teachers: [],
+      // 加载状态
       loading: false,
+      // 表单数据
       formData: {
         score: '',
         tid: undefined,
       },
+      // 表单验证规则
       rules: {
         score: { required: true, message: '请输入比赛成绩' },
       },
     };
   },
   methods: {
+    // 验证表单
     validate() {
       return this.$refs.form.validate().then(() => this.formData);
     },
+    // 搜索导师
     onSearch: debounce(function(query) {
       if (!query) return;
       this.loading = true;
