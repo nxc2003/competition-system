@@ -10,16 +10,14 @@
   </header>
 </template>
 
-
 <script>
-import LoginState from '@/components/common/LoginState';  // 导入 LoginState 组件
+import LoginState from '@/components/common/LoginState'; // 导入 LoginState 组件
 
 export default {
-  name: 'Header',  // 组件名称
-  components: { LoginState },  // 注册 LoginState 组件
+  name: 'Header', // 组件名称
+  components: { LoginState }, // 注册 LoginState 组件
 };
 </script>
-
 
 <style scoped lang="stylus">
 header

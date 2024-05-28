@@ -2,52 +2,52 @@
 const columns = {
   student: [
     {
-      title: '学号',  // 列标题
-      dataIndex: 'account',  // 对应的数据字段
-      sort: (a, b) => a.account - b.account,  // 排序函数，根据学号排序
+      title: '学号', // 列标题
+      dataIndex: 'account', // 对应的数据字段
+      sort: (a, b) => a.account - b.account, // 排序函数，根据学号排序
     },
     {
-      title: '密码',  // 列标题
-      dataIndex: 'password',  // 对应的数据字段
+      title: '密码', // 列标题
+      dataIndex: 'password', // 对应的数据字段
     },
     {
-      title: '姓名',  // 列标题
-      dataIndex: 'name',  // 对应的数据字段
+      title: '姓名', // 列标题
+      dataIndex: 'name', // 对应的数据字段
     },
     {
-      title: '性别',  // 列标题
-      dataIndex: 'sex',  // 对应的数据字段
+      title: '性别', // 列标题
+      dataIndex: 'sex', // 对应的数据字段
     },
     {
-      title: '年级',  // 列标题
-      dataIndex: 'grade',  // 对应的数据字段
+      title: '年级', // 列标题
+      dataIndex: 'grade', // 对应的数据字段
     },
     {
-      title: '班级',  // 列标题
-      dataIndex: 'classname',  // 对应的数据字段
+      title: '班级', // 列标题
+      dataIndex: 'classname', // 对应的数据字段
     },
   ],
   teacher: [
     {
-      title: '工号',  // 列标题
-      dataIndex: 'account',  // 对应的数据字段
-      sort: (a, b) => a.account - b.account,  // 排序函数，根据工号排序
+      title: '工号', // 列标题
+      dataIndex: 'account', // 对应的数据字段
+      sort: (a, b) => a.account - b.account, // 排序函数，根据工号排序
     },
     {
-      title: '密码',  // 列标题
-      dataIndex: 'password',  // 对应的数据字段
+      title: '密码', // 列标题
+      dataIndex: 'password', // 对应的数据字段
     },
     {
-      title: '姓名',  // 列标题
-      dataIndex: 'name',  // 对应的数据字段
+      title: '姓名', // 列标题
+      dataIndex: 'name', // 对应的数据字段
     },
     {
-      title: '职称',  // 列标题
-      dataIndex: 'rank',  // 对应的数据字段
+      title: '职称', // 列标题
+      dataIndex: 'rank', // 对应的数据字段
     },
     {
-      title: '描述',  // 列标题
-      dataIndex: 'description',  // 对应的数据字段
+      title: '描述', // 列标题
+      dataIndex: 'description', // 对应的数据字段
     },
   ],
 };

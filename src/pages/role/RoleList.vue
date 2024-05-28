@@ -54,17 +54,17 @@ import EditRole from '@/components/edit/EditRole';
 export default {
   name: 'RoleList',
   metaInfo: {
-    title: '角色管理',  // 页面标题
+    title: '角色管理', // 页面标题
   },
   data() {
     return {
-      loading: false,  // 加载状态
-      current: 1,  // 当前页码
-      pageSize: 10,  // 每页显示的记录数
-      total: 0,  // 总记录数
-      tableData: [],  // 表格数据
-      searchOptions: createSearchOptions.call(this),  // 搜索选项
-      columns: createTableColumns.call(this, this.$createElement),  // 表格列配置
+      loading: false, // 加载状态
+      current: 1, // 当前页码
+      pageSize: 10, // 每页显示的记录数
+      total: 0, // 总记录数
+      tableData: [], // 表格数据
+      searchOptions: createSearchOptions.call(this), // 搜索选项
+      columns: createTableColumns.call(this, this.$createElement), // 表格列配置
     };
   },
   computed: {

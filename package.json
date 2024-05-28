@@ -20,7 +20,7 @@
     "lodash-es": "^4.17.21",
     "nprogress": "^0.2.0",
     "qiniu-js": "^3.1.2",
-    "vue": "^2.6.12",
+    "vue": "^2.7.16",
     "vue-meta": "^2.4.0",
     "vue-router": "^3.5.1",
     "vuedraggable": "^2.24.3",
@@ -29,11 +29,13 @@
     "xlsx": "^0.16.9"
   },
   "devDependencies": {
+    "@types/connect": "^3.4.38",
+    "@types/json-schema": "^7.0.15",
     "@vue/cli-plugin-babel": "^4.5.12",
     "@vue/cli-plugin-eslint": "^4.5.12",
     "@vue/cli-plugin-router": "^4.5.12",
     "@vue/cli-plugin-vuex": "^4.5.12",
-    "@vue/cli-service": "^4.5.12",
+    "@vue/cli-service": "^4.5.19",
     "@vue/eslint-config-standard": "^5.1.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
@@ -49,7 +51,17 @@
     "stylus-loader": "^3.0.2",
     "vue-cli-plugin-pug": "~2.0.0",
     "vue-cli-plugin-style-resources-loader": "^0.1.5",
+    "vue-loader": "^17.4.2",
     "vue-template-compiler": "^2.6.12",
     "webpack-bundle-analyzer": "^3.9.0"
+  },
+  "description": "系统主要以小而美的方式进行实现，专注于用户体验和功能需求的完善。主要设计并实现了以下功能：",
+  "main": ".eslintrc.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "npm install vue-router"
   }
 }

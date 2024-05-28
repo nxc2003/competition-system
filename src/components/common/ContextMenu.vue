@@ -32,10 +32,10 @@ export default {
   },
   data() {
     return {
-      left: 0,  // 菜单的水平位置
-      top: 0,  // 菜单的垂直位置
-      target: null,  // 触发菜单的目标元素
-      selectedKeys: [],  // 已选中的菜单项的 key 列表
+      left: 0, // 菜单的水平位置
+      top: 0, // 菜单的垂直位置
+      target: null, // 触发菜单的目标元素
+      selectedKeys: [], // 已选中的菜单项的 key 列表
     };
   },
   computed: {
@@ -81,7 +81,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="stylus" scoped>
   .contextmenu

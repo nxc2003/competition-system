@@ -25,43 +25,42 @@
   </a-form-model>
 </template>
 
-
 <script>
-import { permissionTypes, actions } from '@/utils/const';  // 从 utils/const 模块中导入权限类型和动作
+import { permissionTypes, actions } from '@/utils/const'; // 从 utils/const 模块中导入权限类型和动作
 
 export default {
-  name: 'EditPermission',  // 组件名称
+  name: 'EditPermission', // 组件名称
   props: {
     data: {
-      type: Object,  // 定义 data 属性的类型为对象
-      default: null,  // 默认值为 null
+      type: Object, // 定义 data 属性的类型为对象
+      default: null, // 默认值为 null
     },
   },
   data() {
     return {
-      permissionTypes,  // 权限类型选项
-      actions,  // 权限动作选项
+      permissionTypes, // 权限类型选项
+      actions, // 权限动作选项
       formData: {
-        type: undefined,  // 权限类型
-        label: '',  // 权限名称
-        action: undefined,  // 权限动作
+        type: undefined, // 权限类型
+        label: '', // 权限名称
+        action: undefined, // 权限动作
       },
       rules: {
-        type: { required: true, message: '请选择权限类型' },  // 权限类型验证规则
-        label: { required: true, message: '请输入权限名称' },  // 权限名称验证规则
-        action: { required: true, message: '请选择权限动作' },  // 权限动作验证规则
+        type: { required: true, message: '请选择权限类型' }, // 权限类型验证规则
+        label: { required: true, message: '请输入权限名称' }, // 权限名称验证规则
+        action: { required: true, message: '请选择权限动作' }, // 权限动作验证规则
       },
     };
   },
   watch: {
     data: {
-      immediate: true,  // 立即执行处理函数
+      immediate: true, // 立即执行处理函数
       handler(data) {
-        if (!data) return;  // 如果 data 为空，则返回
+        if (!data) return; // 如果 data 为空，则返回
         this.formData = {
-          type: data.type,  // 设置权限类型
-          label: data.label,  // 设置权限名称
-          action: data.action,  // 设置权限动作
+          type: data.type, // 设置权限类型
+          label: data.label, // 设置权限名称
+          action: data.action, // 设置权限动作
         };
       },
     },

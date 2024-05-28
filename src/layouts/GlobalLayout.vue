@@ -45,14 +45,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';  // 导入 mapGetters 函数，用于从 Vuex store 中获取状态
-import { filterRoutes, routes } from '@/router';  // 导入路由过滤函数和路由配置
-import ProLayout from '@ant-design-vue/pro-layout';  // 导入 ProLayout 组件
-import TabLayout from '@/layouts/TabLayout';  // 导入 TabLayout 组件
-import LoginState from '@/components/common/LoginState.vue';  // 导入 LoginState 组件
+import { mapGetters } from 'vuex'; // 导入 mapGetters 函数，用于从 Vuex store 中获取状态
+import { filterRoutes, routes } from '@/router'; // 导入路由过滤函数和路由配置
+import ProLayout from '@ant-design-vue/pro-layout'; // 导入 ProLayout 组件
+import TabLayout from '@/layouts/TabLayout'; // 导入 TabLayout 组件
+import LoginState from '@/components/common/LoginState.vue'; // 导入 LoginState 组件
 
 export default {
-  name: 'GlobalLayout',  // 组件名称
+  name: 'GlobalLayout', // 组件名称
   components: {
     ProLayout,
     LoginState,
@@ -60,47 +60,46 @@ export default {
   },
   data() {
     return {
-      collapsed: false,  // 菜单是否收起
-      autoHideHeader: false,  // 是否自动隐藏头部
-      query: {},  // 媒体查询数据
-      layout: 'sidemenu',  // 布局类型
-      contentWidth: 'Fluid',  // 内容宽度类型
-      theme: 'dark',  // 主题颜色
-      isMobile: false,  // 是否为移动设备
+      collapsed: false, // 菜单是否收起
+      autoHideHeader: false, // 是否自动隐藏头部
+      query: {}, // 媒体查询数据
+      layout: 'sidemenu', // 布局类型
+      contentWidth: 'Fluid', // 内容宽度类型
+      theme: 'dark', // 主题颜色
+      isMobile: false, // 是否为移动设备
     };
   },
   computed: {
-    ...mapGetters(['permissions']),  // 从 Vuex store 中获取 permissions 状态
+    ...mapGetters(['permissions']), // 从 Vuex store 中获取 permissions 状态
     menus() {
-      const root = routes.find(v => v.path === '/');  // 找到根路径的路由配置
-      return filterRoutes(root?.children || [], this.permissions);  // 过滤路由配置，生成菜单数据
+      const root = routes.find(v => v.path === '/'); // 找到根路径的路由配置
+      return filterRoutes(root?.children || [], this.permissions); // 过滤路由配置，生成菜单数据
     },
     rightContentClass() {
       return [
         'ant-pro-global-header-index-right',
         this.layout === 'topmenu' && `ant-pro-global-header-index-${this.theme}`,
-      ];  // 动态设置右侧内容的 CSS 类
+      ]; // 动态设置右侧内容的 CSS 类
     },
   },
   methods: {
     handleCollapse(collapsed) {
-      this.collapsed = collapsed;  // 更新菜单是否收起的状态
+      this.collapsed = collapsed; // 更新菜单是否收起的状态
     },
     handleMediaQuery(query) {
-      this.query = query;  // 更新媒体查询数据
+      this.query = query; // 更新媒体查询数据
       if (this.isMobile && !query['screen-xs']) {
-        this.isMobile = false;  // 如果当前为移动设备且不再匹配 'screen-xs' 媒体查询，则设置为非移动设备
+        this.isMobile = false; // 如果当前为移动设备且不再匹配 'screen-xs' 媒体查询，则设置为非移动设备
         return;
       }
       if (!this.isMobile && query['screen-xs']) {
-        this.isMobile = true;  // 如果当前为非移动设备且匹配 'screen-xs' 媒体查询，则设置为移动设备
-        this.collapsed = false;  // 展开菜单
+        this.isMobile = true; // 如果当前为非移动设备且匹配 'screen-xs' 媒体查询，则设置为移动设备
+        this.collapsed = false; // 展开菜单
       }
     },
   },
 };
 </script>
-
 
 <style lang="less">
 @import "~ant-design-vue/es/style/themes/default.less";

@@ -90,7 +90,6 @@ export default {
 };
 </script>
 
-
 <style lang="stylus" scoped>
 .table-header
   display flex // 使用flex布局

@@ -1,5 +1,5 @@
-import Vue from 'vue';  // 导入Vue库
-import Drawer from '@/components/Drawer';  // 导入自定义的Drawer组件
+import Vue from 'vue'; // 导入Vue库
+import Drawer from '@/components/Drawer'; // 导入自定义的Drawer组件
 
 /**
  * $drawer的扩展函数

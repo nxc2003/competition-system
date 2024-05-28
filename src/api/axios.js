@@ -32,7 +32,7 @@ http.interceptors.response.use(
       message.error('网络未连接'); // 如果网络未连接，显示错误消息
     }
     throw e; // 抛出错误信息
-  }
+  },
 );
 
 // 导出配置好的 axios 实例

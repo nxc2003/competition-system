@@ -1,4 +1,4 @@
-import Vue from 'vue';  // 导入 Vue 库
+import Vue from 'vue'; // 导入 Vue 库
 import DelPopConfirm from '@/tool/DelPopConfirm'; // 导入 DelPopConfirm 组件
 
 // 使用 Vue.component 方法将 DelPopConfirm 注册为全局组件，

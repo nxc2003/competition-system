@@ -1,6 +1,8 @@
 <template>
+    <!--旧的监听：v-on="$listeners"-->
   <a-popconfirm
-    v-on="$listeners"
+    @confirm="onConfirm"
+    @cancel="onCancel"
     v-bind="props"
   >
     <template #icon>
@@ -24,8 +26,8 @@ export default {
     props() {
       return {
         title: '确认删除？', // 默认提示信息
-        placement: 'left',  // 默认弹出位置为左侧
-        ...this.$attrs,     // 合并父组件传递的属性
+        placement: 'left', // 默认弹出位置为左侧
+        ...this.$attrs, // 合并父组件传递的属性
       };
     },
   },

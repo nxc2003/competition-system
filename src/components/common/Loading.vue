@@ -14,11 +14,11 @@
 
 <script>
 export default {
-  name: 'Loading',  // 组件名称
+  name: 'Loading', // 组件名称
   props: {
-    loading: {  // 控制加载动画显示的布尔值
+    loading: { // 控制加载动画显示的布尔值
       type: Boolean,
-      default: true,  // 默认值为 true
+      default: true, // 默认值为 true
     },
   },
 };

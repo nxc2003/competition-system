@@ -54,19 +54,18 @@
   </a-form>
 </template>
 
-
 <script>
-import dayjs from 'dayjs';  // 导入 dayjs 用于日期处理
-import EditMixin from './edit-mixin';  // 导入 EditMixin 混入
-import { raceLevels } from '@/utils/const';  // 导入比赛级别常量
+import dayjs from 'dayjs'; // 导入 dayjs 用于日期处理
+import EditMixin from './edit-mixin'; // 导入 EditMixin 混入
+import { raceLevels } from '@/utils/const'; // 导入比赛级别常量
 
 export default {
-  name: 'EditRace',  // 组件名称
-  mixins: [EditMixin],  // 使用 EditMixin 混入
+  name: 'EditRace', // 组件名称
+  mixins: [EditMixin], // 使用 EditMixin 混入
   data() {
     return {
-      raceLevels,  // 比赛级别选项
-      decorator,  // 表单装饰器
+      raceLevels, // 比赛级别选项
+      decorator, // 表单装饰器
     };
   },
   methods: {
@@ -118,13 +117,13 @@ const decorator = {
     }],
   }],
   level: ['level', {
-    initialValue: 1,  // 初始值为 1
+    initialValue: 1, // 初始值为 1
   }],
   type: ['type', {
-    initialValue: 'A',  // 初始值为 'A'
+    initialValue: 'A', // 初始值为 'A'
   }],
   description: ['description', {
-    initialValue: '',  // 初始值为空字符串
+    initialValue: '', // 初始值为空字符串
   }],
 };
 </script>

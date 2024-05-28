@@ -10,16 +10,16 @@ export default {
   // 定义组件的内部状态
   data() {
     return {
-      labelCol: { span: 3 },  // 表单标签的布局配置
-      wrapperCol: { span: 20 },  // 表单控件的布局配置
-      changed: false,  // 标识表单数据是否发生变化
+      labelCol: { span: 3 }, // 表单标签的布局配置
+      wrapperCol: { span: 20 }, // 表单控件的布局配置
+      changed: false, // 标识表单数据是否发生变化
     };
   },
   // 计算属性
   computed: {
     // 判断当前是否为编辑模式
     isEdit() {
-      return !!this.data;  // data 属性存在则为 true，否则为 false
+      return !!this.data; // data 属性存在则为 true，否则为 false
     },
   },
   // 组件创建之前的钩子函数
@@ -48,8 +48,8 @@ export default {
     validate() {
       // 如果是编辑模式且数据没有发生变化，则提示并拒绝验证
       if (this.isEdit && !this.changed) {
-        message.info('未检测到数据变动');  // 显示提示信息
-        return Promise.reject('未检测到数据变动');  // 返回拒绝的 Promise
+        message.info('未检测到数据变动'); // 显示提示信息
+        return Promise.reject('未检测到数据变动'); // 返回拒绝的 Promise
       }
       // 否则，验证表单字段并返回 Promise
       return this.form.validateFields();

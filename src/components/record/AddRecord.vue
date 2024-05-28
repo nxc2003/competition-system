@@ -1,5 +1,5 @@
 <template>
-  <!-- 表单模型 -->
+  <!-- 表单模型, 绑定数据模型和验证规则 -->
   <a-form-model
     ref="form"
     :label-col="{ span: 4 }"
@@ -7,11 +7,15 @@
     :model="formData"
     :rules="rules"
   >
-    <!-- 表单项：成绩 -->
+    <!-- 表单项：成绩, 自动聚焦 -->
     <a-form-model-item label="成绩" prop="score">
-      <a-input v-model="formData.score" placeholder="比赛成绩" auto-focus />
+      <a-input
+        v-model="formData.score"
+        placeholder="比赛成绩"
+        auto-focus
+      />
     </a-form-model-item>
-    <!-- 表单项：导师 -->
+    <!-- 表单项：导师选择器, 支持搜索和清除 -->
     <a-form-model-item label="导师" prop="tid">
       <a-select
         v-model="formData.tid"
@@ -23,13 +27,14 @@
         :options="teachers"
         @search="onSearch"
       >
-        <!-- 加载中的旋转图标 -->
-        <a-spin
-          v-if="loading"
-          slot="notFoundContent"
-          size="small"
-          style="width: 100%; height: 100px; line-height: 100px"
-        />
+        <!-- 加载中的旋转图标, 使用 v-slot 替换旧的 slot 用法 -->
+        <template v-slot:notFoundContent>
+          <a-spin
+            v-if="loading"
+            size="small"
+            style="width: 100%; height: 100px; line-height: 100px"
+          />
+        </template>
       </a-select>
     </a-form-model-item>
   </a-form-model>

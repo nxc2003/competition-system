@@ -74,40 +74,39 @@
   </div>
 </template>
 
-
 <script>
-import { raceLevelMap, raceLevels } from '@/utils/const';  // 导入赛事级别的映射和列表
-import { exportData } from '@/utils/excel';  // 导入 Excel 导出函数
-import EditRace from '@/components/edit/EditRace';  // 导入编辑赛事组件
-import AddRecord from '@/components/record/AddRecord';  // 导入添加记录组件
+import { raceLevelMap, raceLevels } from '@/utils/const'; // 导入赛事级别的映射和列表
+import { exportData } from '@/utils/excel'; // 导入 Excel 导出函数
+import EditRace from '@/components/edit/EditRace'; // 导入编辑赛事组件
+import AddRecord from '@/components/record/AddRecord'; // 导入添加记录组件
 
 export default {
-  name: 'Race',  // 组件名称
-  metaInfo: {  // 页面元信息
+  name: 'Race', // 组件名称
+  metaInfo: { // 页面元信息
     title: '赛事管理',
   },
   data() {
     return {
-      selectedKeys: [],  // 被选中的行的 key 数组
-      loading: false,  // 表示表格数据是否在加载中
-      exporting: false,  // 表示是否正在导出数据
-      races: [],  // 赛事数据数组
-      current: 1,  // 当前页码
-      pageSize: 10,  // 每页显示的记录数
-      total: 0,  // 总记录数
-      tableColumns: createTableColumns.call(this),  // 表格列的配置
-      searchOptions: createSearchOptions.call(this),  // 搜索表单的配置
+      selectedKeys: [], // 被选中的行的 key 数组
+      loading: false, // 表示表格数据是否在加载中
+      exporting: false, // 表示是否正在导出数据
+      races: [], // 赛事数据数组
+      current: 1, // 当前页码
+      pageSize: 10, // 每页显示的记录数
+      total: 0, // 总记录数
+      tableColumns: createTableColumns.call(this), // 表格列的配置
+      searchOptions: createSearchOptions.call(this), // 搜索表单的配置
     };
   },
   computed: {
-    pagination() {  // 计算分页参数
+    pagination() { // 计算分页参数
       return {
         current: this.current,
         pageSize: this.pageSize,
         total: this.total,
       };
     },
-    isStudent() {  // 判断当前用户是否为学生
+    isStudent() { // 判断当前用户是否为学生
       return this.$store.state.user.identity === 'student' || false;
     },
   },
@@ -115,14 +114,14 @@ export default {
     this.$watch(() => [this.pageSize, this.current], this.getData, { immediate: true });
   },
   methods: {
-    changePage({ pageSize, current }) {  // 分页、排序、筛选变化时触发
+    changePage({ pageSize, current }) { // 分页、排序、筛选变化时触发
       Object.assign(this, { pageSize, current });
     },
-    search() {  // 搜索表单提交
+    search() { // 搜索表单提交
       this.current = 1;
       this.getData();
     },
-    getData() {  // 获取赛事数据
+    getData() { // 获取赛事数据
       this.loading = true;
       this.$api.getRaceList({
         ...this.$refs.searchForm.getResult(),
@@ -138,7 +137,7 @@ export default {
         this.loading = false;
       });
     },
-    addRace() {  // 添加赛事
+    addRace() { // 添加赛事
       let vnode;
       this.$confirm({
         title: '新增赛事',
@@ -155,7 +154,7 @@ export default {
         },
       });
     },
-    editRace(race) {  // 编辑赛事
+    editRace(race) { // 编辑赛事
       let vnode;
       this.$confirm({
         title: '编辑赛事',
@@ -173,7 +172,7 @@ export default {
         },
       });
     },
-    deleteRace(race) {  // 删除赛事
+    deleteRace(race) { // 删除赛事
       this.loading = true;
       this.$api.deleteRace([race.race_id]).then(data => {
         this.$message.success(data.msg);
@@ -185,7 +184,7 @@ export default {
         this.loading = false;
       });
     },
-    batchDelete() {  // 批量删除赛事
+    batchDelete() { // 批量删除赛事
       this.$modal.confirm({
         title: `确认删除选中的${this.selectedKeys.length}项数据?`,
         onOk: () => this.$api.deleteRace(this.selectedKeys)
@@ -199,7 +198,7 @@ export default {
           }),
       });
     },
-    addRecord(race) {  // 添加记录
+    addRecord(race) { // 添加记录
       let vnode;
       this.$confirm({
         title: '成绩录入',
@@ -221,10 +220,10 @@ export default {
         },
       });
     },
-    exportAll() {  // 全量导出
+    exportAll() { // 全量导出
       this.exporting = true;
       this.$api.getRaceList(this.query).then(data => {
-        return exportExcel(data.data);
+        return exportData(data.data);
       }).catch(e => {
         console.error(e);
         this.$message.error(e.msg || '导出失败');
@@ -234,7 +233,6 @@ export default {
     },
   },
 };
-
 
 function createTableColumns() {
   return [
@@ -252,8 +250,6 @@ function createTableColumns() {
     },
   ];
 }
-
-
 
 function createSearchOptions() {
   return [

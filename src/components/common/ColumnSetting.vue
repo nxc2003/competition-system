@@ -3,48 +3,48 @@
   <a-dropdown v-model="show" :trigger="['click']">
     <!-- 设置图标，点击时展示下拉菜单 -->
     <a-icon type="setting" style="cursor: pointer; font-size: 16px" />
-    <!-- 定义下拉菜单内容 -->
-    <div slot="overlay" class="ant-dropdown-menu setting ant-dropdown-content">
+    <template v-slot:overlay>
+      <div class="ant-dropdown-menu setting ant-dropdown-content">
       <!-- 菜单头部，包含“列展示”全选复选框和重置按钮 -->
-      <div class="setting-header setting-item">
-        <!-- 复选框，绑定 indeterminate 和 checked 属性，触发 onCheckAllChange 方法 -->
-        <a-checkbox
-          :indeterminate="indeterminate"
-          :checked="checkAll"
-          @change="onCheckAllChange"
-        >
-          列展示
-        </a-checkbox>
-        <!-- 重置按钮，点击时调用 init 方法 -->
-        <a @click="init">重置</a>
-      </div>
-      <!-- 分隔线 -->
-      <a-divider />
-      <!-- 复选框组，使用 draggable 组件实现可拖动排序 -->
-      <div class="ant-checkbox-group">
-        <draggable v-model="columnSetting" animation="300">
-          <!-- 遍历 columnSetting 数组，生成可拖动的复选框项 -->
-          <div
-            class="setting-item"
-            v-for="item in columnSetting"
-            :key="item.dataIndex"
+        <div class="setting-header setting-item">
+          <!-- 复选框，绑定 indeterminate 和 checked 属性，触发 onCheckAllChange 方法 -->
+          <a-checkbox
+            :indeterminate="indeterminate"
+            :checked="checkAll"
+            @change="onCheckAllChange"
           >
-            <!-- 拖动手柄 -->
-            <div class="setting-handle">
-              <a-icon type="more" />
-              <a-icon type="more" />
+            列展示
+          </a-checkbox>
+          <!-- 重置按钮，点击时调用 init 方法 -->
+          <a @click="init">重置</a>
+        </div>
+        <!-- 分隔线 -->
+        <a-divider />
+        <!-- 复选框组，使用 draggable 组件实现可拖动排序 -->
+        <div class="ant-checkbox-group">
+          <draggable v-model="columnSetting" animation="300">
+            <!-- 遍历 columnSetting 数组，生成可拖动的复选框项 -->
+            <div
+              class="setting-item"
+              v-for="item in columnSetting"
+              :key="item.dataIndex"
+            >
+              <!-- 拖动手柄 -->
+              <div class="setting-handle">
+                <a-icon type="more" />
+                <a-icon type="more" />
+              </div>
+              <!-- 复选框，绑定 v-model="item.checked"，显示列标题 -->
+              <a-checkbox v-model="item.checked">
+                {{ item.title }}
+              </a-checkbox>
             </div>
-            <!-- 复选框，绑定 v-model="item.checked"，显示列标题 -->
-            <a-checkbox v-model="item.checked">
-              {{ item.title }}
-            </a-checkbox>
-          </div>
-        </draggable>
+          </draggable>
+        </div>
       </div>
-    </div>
+    </template>
   </a-dropdown>
 </template>
-
 
 <script>
 // 导入 vuedraggable 组件

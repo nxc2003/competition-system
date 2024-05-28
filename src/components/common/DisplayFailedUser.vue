@@ -20,7 +20,7 @@
     <!-- 使用 a-list 组件显示失败用户列表 -->
     <a-list
       size="small"
-      :grid="{ gutter: 16, column: 3 }"  
+      :grid="{ gutter: 16, column: 3 }"
       :data-source="fail"
       :pagination="{
         pageSize: 12,
@@ -38,21 +38,20 @@
   </div>
 </template>
 
-
 <script>
 export default {
-  name: 'DisplayFailedUser',  // 组件名称
+  name: 'DisplayFailedUser', // 组件名称
   props: {
-    primaryKey: {  // 主键属性，用于标识用户的唯一键
+    primaryKey: { // 主键属性，用于标识用户的唯一键
       type: String,
       required: true,
-      validator: value => ['sid', 'tid'].includes(value),  // 验证主键值是否合法，只能是 'sid' 或 'tid'
+      validator: value => ['sid', 'tid'].includes(value), // 验证主键值是否合法，只能是 'sid' 或 'tid'
     },
-    users: {  // 用户列表
+    users: { // 用户列表
       type: Array,
       required: true,
     },
-    fail: {  // 失败用户列表
+    fail: { // 失败用户列表
       type: Array,
       required: true,
     },

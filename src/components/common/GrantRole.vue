@@ -18,37 +18,36 @@
   </a-form-model>
 </template>
 
-
 <script>
 export default {
-  name: 'GrantRole',  // 组件名称
+  name: 'GrantRole', // 组件名称
   props: {
-    type: {  // 用户类型
+    type: { // 用户类型
       type: String,
       required: true,
     },
-    account: {  // 用户账号
+    account: { // 用户账号
       type: String,
       required: true,
     },
-    role: {  // 当前角色 ID
+    role: { // 当前角色 ID
       type: Number,
       required: true,
     },
   },
   data() {
     return {
-      options: [],  // 角色选项数组
+      options: [], // 角色选项数组
       formData: {
-        role_id: this.role,  // 表单数据，初始角色 ID 来自 prop
+        role_id: this.role, // 表单数据，初始角色 ID 来自 prop
       },
     };
   },
   watch: {
-    role: {  // 监听角色 ID 的变化
-      immediate: true,  // 立即执行监听器
+    role: { // 监听角色 ID 的变化
+      immediate: true, // 立即执行监听器
       handler(role) {
-        this.formData.role_id = role;  // 更新表单数据中的角色 ID
+        this.formData.role_id = role; // 更新表单数据中的角色 ID
       },
     },
   },
@@ -82,10 +81,9 @@ export default {
       } catch (e) {
         // 处理授权失败的情况
         this.$message.error(e.msg || '授权失败');
-        throw e;  // 抛出错误以便调用者处理
+        throw e; // 抛出错误以便调用者处理
       }
     },
   },
 };
 </script>
-

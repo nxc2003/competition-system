@@ -43,13 +43,13 @@ export default {
   },
   data() {
     return {
-      loading: false,  // 是否正在加载数据
-      current: 1,  // 当前页码
-      pageSize: 10,  // 每页显示的记录数
-      total: 0,  // 总记录数
-      tableData: [],  // 表格数据
-      searchOptions: createSearchOptions.call(this),  // 搜索选项
-      columns: createTableColumns.call(this, this.$createElement),  // 表格列配置
+      loading: false, // 是否正在加载数据
+      current: 1, // 当前页码
+      pageSize: 10, // 每页显示的记录数
+      total: 0, // 总记录数
+      tableData: [], // 表格数据
+      searchOptions: createSearchOptions.call(this), // 搜索选项
+      columns: createTableColumns.call(this, this.$createElement), // 表格列配置
     };
   },
   computed: {
