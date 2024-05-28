@@ -53,11 +53,11 @@
 
 <script>
 import { message } from 'ant-design-vue'; // 从 ant-design-vue 中导入消息组件
-import { createNamespacedHelpers } from 'vuex'; // 从 vuex 中导入 createNamespacedHelpers 函数
+// import { createNamespacedHelpers } from 'vuex'; // 从 vuex 中导入 createNamespacedHelpers 函数
 import { getToken, fresh } from '../../api'; // 从 api 模块中导入 getToken 和 fresh 函数
 import { uploader } from '@/utils/qiniu'; // 从 utils/qiniu 模块中导入 uploader 函数
 
-const { mapActions } = createNamespacedHelpers('records'); // 创建命名空间的 vuex 辅助函数
+// const { mapActions } = createNamespacedHelpers('records'); // 创建命名空间的 vuex 辅助函数
 export default {
   name: 'Upload', // 组件名称
   props: {
