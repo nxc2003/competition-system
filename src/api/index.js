@@ -9,19 +9,19 @@ export const getUserData = () => axios.get('/get_user');
  * 用户相关接口
  */
 // 获取用户列表接口
-export const getUserList = params => axios.get('/user/list', { params });
-// 添加用户接口
-export const addUser = (type, data) => axios.post('/user/add', { type, data });
-// 导入用户接口
-export const importUser = (type, data) => axios.post('/user/import', { type, data });
-// 删除用户接口
-export const deleteUser = (type, data) => axios.delete('/user/delete', { data: { type, data } });
-// 更新用户接口
-export const updateUser = (type, data) => axios.put('/user/update', { type, data });
-// 更新密码接口
-export const updatePassword = data => axios.patch('/user/password', data);
-// 重置密码接口
-export const resetPassword = data => axios.put('/user/reset', data);
+// export const getUserList = params => axios.get('/user/list', { params });
+// // 添加用户接口
+// export const addUser = (type, data) => axios.post('/user/add', { type, data });
+// // 导入用户接口
+// export const importUser = (type, data) => axios.post('/user/import', { type, data });
+// // 删除用户接口
+// export const deleteUser = (type, data) => axios.delete('/user/delete', { data: { type, data } });
+// // 更新用户接口
+// export const updateUser = (type, data) => axios.put('/user/update', { type, data });
+// // 更新密码接口
+// export const updatePassword = data => axios.patch('/user/password', data);
+// // 重置密码接口
+// export const resetPassword = data => axios.put('/user/reset', data);
 /**
  * 赛事相关接口
  */
