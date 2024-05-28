@@ -1,7 +1,16 @@
 # 项目简介
-系统主要以小而美的方式进行实现，专注于用户体验和功能需求的完善。
+## 背景
+本项目于2024年五月构建 目的在于参加数据库大赛  
+本项目的设计背景为不想要烂大街的项目（如学生管理系统、图书管理系统等）又想要创建一个不脱离大学生大学生活的系统。
+## 项目主题
+最终我们将选题瞄准了大学生竞赛系统既不那么常见又紧贴大学生的生活---竞赛管理系统
+## 软件和语言选择
+前端主要使用vscode基于vue和javascript构建 后端主要使用goland基于golang语言构建 数据库由Navicat基于myaql构造
+## 调试和优化
+由于本人水平有限在项目构建过程中借助了许多网上教程和ai帮助我快速调试bug和优化代码风格
+主要调试软件edge浏览器来测试前端网页，postman 来测试后端请求
 
-## 项目结构
+## 项目总结构
 - **`competition_system/`**：前端系统
     - **`files/`**：客户端界面截图。
     - **`node_models/`**：本地初始化的项目依赖。
@@ -107,7 +116,31 @@
     - `package.json`：项目元数据和依赖项配置。
     - `README.md`：项目说明文档。
     - `vue.config.js`：Vue CLI 项目配置文件。
-
+- **`competition_server/`**：后端支持
+    - **`config/`**：配置文件和数据库初始化脚本。
+        - `config.go`：初始化数据库并配置会话密钥。
+        - `init_mysql`：数据库结构及其数据初始化
+    - **`controllers/`**：处理各种功能业务逻辑的控制器。
+        - `auth.go`：登录及其认证。
+        - `permissions.go`：管理权限设置。
+        - `races.go`：处理比赛相关功能。
+        - `record.go`：管理比赛记录。
+        - `role.go`：角色管理功能。
+        - `users.go`：管理用户相关的功能。
+    - **`middlewares/`**：包含处理请求的中间件。
+        - `auth_check.go`：权限验证中间件。
+        - `login_check.go`：登录验证中间件。
+        - `user.go`：与用户操作相关的中间件。
+    - **`models/`**：定义数据库的数据结构。
+        - `json.go`：定义json返回需要的字段
+        - `models.go`：定义数据库中使用的所有模型。
+    - **`routes/`**：设置 API 端点。
+        - `routes.go`：配置应用的所有路由。
+    - **`utils/`**：应用的实用工具函数。
+        - `db.go`：数据库实用工具函数。
+        - `qiniu.go`：实现文件上传下载逻辑。
+    - **`main.go`**：主函数。
+    - **`go.mod`**：项目依赖项
 ## 项目功能
 1. 竞赛信息管理功能，具有相应权限的用户可以向系统中添加竞赛信息；
 2. 成绩录入功能，具有相应权限的用户可以查看或修改参赛记录信息，可修改录入系统中的成绩信息。
@@ -120,24 +153,13 @@
 
 在技术选型上以 JavaScript & Node.js 为主要开发语言，前端使用 Vue.js 全家桶，后端主要使用 Node.js 与 TypeScript 实现，采用 Web 服务框架 Express 与 MySQL 数据库构建后台应用。
 
-[后端项目地址](https://github.com/1446445040/competition-server)
-
-**用都用了，点个星星呗**。
+[后端项目地址](https://github.com/nxc2003/competition-server)
 
 # 项目运行
-
-请预先安装 Node.js 环境，并在项目根目录下运行以下命令：
-
-```shell
-npm install --registry https://registry.npm.taobao.org/ # 使用淘宝镜像源安装依赖包
-npm run serve # 启动项目
-```
 
 启动项目进入首页，系统初始账号密码为`admin/123`，身份为学生。
 
 > 如果改变后端地址(localhost:3000)，请修改`vue.config.js`中对应的代理配置。
-
-为了良好的开发体验，vscode 建议安装 eslint 插件并打开保存时自动运行 eslint 选项，具体可以百度
 
 # 功能模块图
 
