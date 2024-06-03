@@ -13,8 +13,17 @@
       <a-descriptions-item label="级别">
         {{ race.level }}
       </a-descriptions-item>
-      <a-descriptions-item label="时间">
+      <!--1.0版本仅显示时间
+        <a-descriptions-item label="时间">
         {{ formatDate(race.date) }}
+        </a-descriptions-item>
+      -->
+      <!--优化为显示开始和截至时间-->
+      <a-descriptions-item label="开始时间">
+        {{ formatDate(race.startdate) }}
+      </a-descriptions-item>
+      <a-descriptions-item label="截止时间">
+        {{ formatDate(race.enddate) }}
       </a-descriptions-item>
       <a-descriptions-item label="地点">
         {{ race.location }}

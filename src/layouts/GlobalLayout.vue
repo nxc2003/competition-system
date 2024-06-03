@@ -23,7 +23,7 @@
     </template>
     <template #footerRender>
       <div class="footer-container">
-        南昌大学 软件学院 竞赛管理系统 ©2021 Created by Qinxuyang
+        重庆邮电大学 计算机学院 竞赛管理系统 ©2024
       </div>
     </template>
     <!-- 自定义头部内容渲染 -->

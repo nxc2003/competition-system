@@ -1,96 +1,91 @@
 <template>
-  <!-- 表单组件，使用 Ant Design Vue 的 Form 组件 -->
   <a-form
     :label-col="labelCol"
     :wrapper-col="wrapperCol"
-    :model="form"
-    :rules="rules"
+    :form="form"
   >
-    <!-- 学号输入框 -->
-    <a-form-item label="学号" :rules="rules.sid">
+    <a-form-item label="学号">
       <a-input
-        v-model="form.sid"
+        v-decorator="decorator.sid"
         :disabled="isEdit"
         placeholder="学号"
         allowClear
       >
-        <template v-slot:prefix>
-          <a-icon type="user" style="color: rgba(0,0,0,.25)" />
-        </template>
+        <a-icon
+          slot="prefix"
+          type="user"
+          style="color: rgba(0,0,0,.25)"
+        />
       </a-input>
     </a-form-item>
-    <!-- 密码输入框，仅在非编辑模式下显示 -->
-    <a-form-item v-if="!isEdit" label="密码" :rules="rules.password">
+    <a-form-item v-if="!isEdit" label="密码">
       <a-input
         ref="password"
-        v-model="form.password"
+        v-decorator="decorator.password"
         placeholder="密码"
         allowClear
       >
-        <template v-slot:prefix>
-          <a-icon type="lock" style="color: rgba(0,0,0,.25)" />
-        </template>
+        <a-icon
+          slot="prefix"
+          type="lock"
+          style="color: rgba(0,0,0,.25)"
+        />
       </a-input>
     </a-form-item>
-    <!-- 姓名输入框 -->
-    <a-form-item label="姓名" :rules="rules.name">
+    <a-form-item label="姓名">
       <a-input
-        v-model="form.name"
+        v-decorator="decorator.name"
         placeholder="姓名"
         allowClear
       />
     </a-form-item>
-    <!-- 年级选择框 -->
-    <a-form-item label="年级" :rules="rules.grade">
+    <a-form-item label="年级">
       <a-select
-        v-model="form.grade"
+        v-decorator="decorator.grade"
         :options="grades"
         allowClear
         placeholder="年级"
       />
     </a-form-item>
-    <!-- 班级输入框 -->
-    <a-form-item label="班级" :rules="rules.class">
+    <a-form-item label="班级">
       <a-input
-        v-model="form.class"
+        v-decorator="decorator.class"
         placeholder="班级"
         allowClear
       />
     </a-form-item>
-    <!-- 性别单选框组 -->
-    <a-form-item label="性别" :rules="rules.sex">
-      <a-radio-group v-model="form.sex" :options="sexes" />
+    <a-form-item label="性别">
+      <a-radio-group v-decorator="decorator.sex" :options="sexes" />
     </a-form-item>
   </a-form>
 </template>
 
 <script>
-import { pick } from 'lodash-es'; // 从 lodash-es 导入 pick 函数，用于选择对象属性
-import { grades, sexes } from '@/utils/const'; // 从 utils/const 导入年级和性别选项
-import EditMixin from './edit-mixin'; // 导入 EditMixin 混入，用于共享表单编辑逻辑
+import { pick } from 'lodash-es';
+import { grades, sexes } from '@/utils/const';
+import EditMixin from './edit-mixin';
 
 export default {
-  name: 'EditStudent', // 组件名称
-  mixins: [EditMixin], // 使用 EditMixin 混入
+  name: 'EditStudent',
+  mixins: [EditMixin],
   data() {
     return {
-      grades, // 年级选项数据
-      decorator, // 表单装饰器
-      sexes, // 性别选项数据
+      grades,
+      decorator,
+      sexes,
     };
   },
   methods: {
-    // 初始化表单数据
     initData() {
       const { data } = this;
-      const result = pick(data, ['sid', 'name', 'sex', 'class', 'grade']); // 选择需要的表单字段
-      this.form.setFieldsValue(result); // 设置表单字段的值
+      const result = pick(data, ['sid', 'name', 'sex', 'class', 'grade']);
+      this.form.setFieldsValue(result);
     },
   },
 };
 
 /**
- * 定义表单装饰器
+ * 定义decorator
  */
 const decorator = {
   sid: ['sid', {
@@ -112,7 +107,7 @@ const decorator = {
     }],
   }],
   sex: ['sex', {
-    initialValue: 1, // 初始值为 1
+    initialValue: 1,
   }],
   class: ['class', {
     rules: [{

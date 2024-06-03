@@ -6,7 +6,7 @@ import axios from 'axios';
 import store from '@/store';
 // 创建一个 axios 实例，并设置默认配置
 const http = axios.create({
-  baseURL: 'http://localhost:8081', // 设置基础 URL
+  baseURL: '', // 设置基础url
 });
 // 请求拦截器，在每次请求前添加 token 到请求头
 http.interceptors.request.use(config => {

@@ -187,7 +187,7 @@ function createTableColumns(h) {
   return [
     { title: '编号', dataIndex: 'id' },
     { title: '权限名称', dataIndex: 'label' },
-    { title: '权限类型', dataIndex: 'type' },
+    { title: '操作对象', dataIndex: 'type' },
     {
       title: 'Action',
       dataIndex: 'action',

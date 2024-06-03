@@ -103,6 +103,9 @@ export default {
       });
     },
   },
+  mounted() {
+    console.log('用户信息:', this.user);
+  },
 };
 </script>
 

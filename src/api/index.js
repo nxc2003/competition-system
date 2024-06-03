@@ -9,21 +9,21 @@ export const getUserData = () => axios.get('/get_user');
  * 用户相关接口
  */
 // 获取用户列表接口
-// export const getUserList = params => axios.get('/user/list', { params });
-// // 添加用户接口
-// export const addUser = (type, data) => axios.post('/user/add', { type, data });
-// // 导入用户接口
-// export const importUser = (type, data) => axios.post('/user/import', { type, data });
-// // 删除用户接口
-// export const deleteUser = (type, data) => axios.delete('/user/delete', { data: { type, data } });
-// // 更新用户接口
-// export const updateUser = (type, data) => axios.put('/user/update', { type, data });
-// // 更新密码接口
-// export const updatePassword = data => axios.patch('/user/password', data);
-// // 重置密码接口
-// export const resetPassword = data => axios.put('/user/reset', data);
+export const getUserList = params => axios.get('/user/list', { params });
+// 添加用户接口--舍弃 直接由后端添加教师/学生时实现
+export const addUser = (type, data) => axios.post('/user/add', { type, data });
+// 导入用户接口--暂未调试成功
+export const importUser = (type, data) => axios.post('/user/import', { type, data });
+// 删除用户接口
+export const deleteUser = (type, data) => axios.delete('/user/delete', { data: { type, data } });
+// 更新用户接口
+export const updateUser = (type, data) => axios.put('/user/update', { type, data });
+// 更新密码接口
+export const updatePassword = data => axios.patch('/user/password', data);
+// 重置密码接口
+export const resetPassword = data => axios.put('/user/reset', data);
 /**
- * 赛事相关接口
+ * 赛事相关接口--调试完成
  */
 // 获取赛事列表接口
 export const getRaceList = params => axios.get('/race/list', { params });
@@ -34,7 +34,7 @@ export const updateRace = data => axios.put('/race/update', data);
 // 删除赛事接口
 export const deleteRace = data => axios.delete('/race/delete', { data });
 /**
- * 参赛记录相关接口
+ * 参赛记录相关接口--调试完成
  */
 // 获取参赛记录列表接口
 export const getRecordList = params => axios.get('/record/list', { params });

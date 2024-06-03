@@ -107,6 +107,7 @@ import createColumns from '@/helpers/importuser-columns';
 import EditTeacher from '@/components/edit/EditTeacher';
 import UserImport from '@/components/common/UserImport.vue';
 import GrantRole from '@/components/common/GrantRole';
+import moment from 'moment';
 
 const TEACHER_COLUMNS = [
   { title: '工号', dataIndex: 'tid' },
@@ -135,8 +136,8 @@ function exportExcel(data) {
       name: '姓名',
       rank: ['职称', rank => rankMap[rank]],
       description: '描述',
-      create_time: '创建时间',
-      update_time: '修改时间',
+      create_time: ['创建时间', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
+      update_time: ['修改时间', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
     },
   });
 }
@@ -198,7 +199,11 @@ export default {
         offset: this.current,
         limit: this.pageSize,
       }).then(data => {
-        this.users = data.data;
+        this.users = data.data.map(teacher => ({
+          ...teacher,
+          create_time: moment(teacher.create_time).format('YYYY-MM-DD HH:mm:ss'),
+          update_time: moment(teacher.update_time).format('YYYY-MM-DD HH:mm:ss'),
+        }));
         this.total = data.count;
       }).catch(e => {
         console.error(e);

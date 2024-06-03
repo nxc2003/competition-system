@@ -8,7 +8,6 @@
       @search="search"
       @reset="search"
     />
-
     <!-- AntTable 组件用于显示赛事信息表格 -->
     <AntTable
       v-model="selectedKeys"
@@ -45,7 +44,7 @@
       <template #action="record">
         <a-space>
           <!-- 成绩录入 -->
-          <a-tooltip v-if="isStudent || $has('record:add')" title="成绩录入">
+          <a-tooltip v-if="isStudent || $has('record:add')" title="报名/成绩录入">
             <a @click="addRecord(record)">
               <a-icon type="plus-circle" />
             </a>
@@ -79,6 +78,7 @@ import { raceLevelMap, raceLevels } from '@/utils/const'; // 导入赛事级别�
 import { exportData } from '@/utils/excel'; // 导入 Excel 导出函数
 import EditRace from '@/components/edit/EditRace'; // 导入编辑赛事组件
 import AddRecord from '@/components/record/AddRecord'; // 导入添加记录组件
+import moment from 'moment';
 
 export default {
   name: 'Race', // 组件名称
@@ -128,7 +128,14 @@ export default {
         offset: this.current,
         limit: this.pageSize,
       }).then(data => {
-        this.races = data.data;
+        // 格式化时间字段
+        this.races = data.data.map(race => ({
+          ...race,
+          startdate: moment(race.startdate).format('YYYY-MM-DD HH:mm:ss'),
+          enddate: moment(race.enddate).format('YYYY-MM-DD HH:mm:ss'),
+          // create_time: moment(race.create_time).format('YYYY-MM-DD HH:mm:ss'),
+          // update_time: moment(race.update_time).format('YYYY-MM-DD HH:mm:ss'),
+        }));
         this.total = data.count;
       }).catch(e => {
         console.error(e);
@@ -144,6 +151,11 @@ export default {
         content: h => (vnode = <EditRace />),
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
+          // 格式化时间字段为 RFC3339 格式
+          if (values.date) {
+            values.startdate = moment(values.atartdate).format('YYYY-MM-DDTHH:mm:ssZ');
+            values.enddate = moment(values.enddate).format('YYYY-MM-DDTHH:mm:ssZ');
+          }
           return this.$api.addRace(values).then(data => {
             this.$message.success(data.msg);
             this.getData();
@@ -162,6 +174,10 @@ export default {
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
           values.race_id = race.race_id;
+          // 格式化时间字段为 RFC3339 格式
+          if (values.date) {
+            values.date = moment(values.date).format('YYYY-MM-DDTHH:mm:ssZ');
+          }
           return this.$api.updateRace(values).then(data => {
             this.$message.success(data.msg);
             this.getData();
@@ -208,13 +224,13 @@ export default {
           const values = await form.validate();
           return this.$api.addRecord({
             race_id: race.race_id,
-            sid: this.$store.state.user.account,
+            sid: this.$store.state.user.sid,
             score: values.score,
             tid: values.tid,
           }).then(data => {
             this.$message.success(data.msg);
           }).catch(e => {
-            this.$message.error(e.msg || '系统错误');
+            this.$message.error(e.msg || '请勿重复报名！');
             throw e;
           });
         },
@@ -223,7 +239,24 @@ export default {
     exportAll() { // 全量导出
       this.exporting = true;
       this.$api.getRaceList(this.query).then(data => {
-        return exportData(data.data);
+        // 调用 exportData 函数
+        return exportData({
+          data: data.data, // 确保传递的数据结构正确
+          name: '全部比赛', // 指定导出的文件名
+          keyMap: { // 确保 keyMap 包含所有数据字段的映射
+            race_id: '比赛编号',
+            title: '比赛名称',
+            sponsor: '指导教师',
+            type: '类型',
+            level: '级别',
+            location: '地点',
+            startdate: ['开始日期', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
+            enddate: ['截止日期', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
+            description: '描述',
+            create_time: ['登记时间', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
+            update_time: ['更新时间', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
+          },
+        });
       }).catch(e => {
         console.error(e);
         this.$message.error(e.msg || '导出失败');
@@ -240,7 +273,9 @@ function createTableColumns() {
     { title: '级别', customRender: record => raceLevelMap[record.level] },
     { title: '类别', dataIndex: 'type' },
     { title: '主办方', dataIndex: 'sponsor' },
-    { title: '举办时间', dataIndex: 'date' },
+    // 1.0版本：{ title: '举办时间', dataIndex: 'date' },
+    { title: '开始', dataIndex: 'startdate' },
+    { title: '截止', dataIndex: 'enddate' },
     { title: '地点', dataIndex: 'location' },
     { title: '描述', dataIndex: 'description' },
     {
@@ -293,7 +328,7 @@ function createSearchOptions() {
       },
     },
     {
-      label: '举办时间',
+      label: '截止时间',
       key: 'date',
       default: () => [],
       mapper: ({ date }) => date.join('~'),

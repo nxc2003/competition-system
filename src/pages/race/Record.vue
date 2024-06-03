@@ -49,6 +49,7 @@
 <script>
 import { exportData } from '@/utils/excel';
 import RecordAction from '@/components/record/RecordAction';
+import moment from 'moment';
 
 export default {
   name: 'Record',
@@ -100,7 +101,11 @@ export default {
         offset: this.current,
         limit: this.pageSize,
       }).then(data => {
-        this.records = data.data;
+        this.records = data.data.map(record => ({
+          ...record,
+          create_time: moment(record.create_time).format('YYYY-MM-DD HH:mm:ss'),
+          update_time: moment(record.update_time).format('YYYY-MM-DD HH:mm:ss'),
+        }));
         this.total = data.count;
       }).catch(e => {
         console.error(e);
@@ -192,8 +197,8 @@ function exportExcel(data) {
       score: '成绩',
       status: ['状态', status => statusMap[status]?.text],
       description: '备注',
-      create_time: '登记时间',
-      update_time: '更新时间',
+      create_time: ['登记时间', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
+      update_time: ['更新时间', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
     },
   });
 }

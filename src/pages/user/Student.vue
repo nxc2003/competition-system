@@ -104,6 +104,7 @@ import createColumns from '@/helpers/importuser-columns'; // 引入创建列的�
 import EditStudent from '@/components/edit/EditStudent'; // 引入编辑学生组件
 import UserImport from '@/components/common/UserImport'; // 引入用户导入组件
 import GrantRole from '@/components/common/GrantRole'; // 引入授权角色组件
+import moment from 'moment';
 
 // 定义学生表格的列配置
 const STUDENT_COLUMNS = [
@@ -136,8 +137,8 @@ function exportExcel(data) {
       sex: ['性别', sex => sexMap[sex]], // 使用性别映射
       grade: ['年级', grade => gradeMap[grade]], // 使用年级映射
       class: '班级',
-      create_time: '创建时间',
-      update_time: '修改时间',
+      create_time: ['创建时间', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
+      update_time: ['修改时间', value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
     },
   });
 }
@@ -205,7 +206,11 @@ export default {
         offset: this.current,
         limit: this.pageSize,
       }).then(data => {
-        this.users = data.data;
+        this.users = data.data.map(student => ({
+          ...student,
+          create_time: moment(student.create_time).format('YYYY-MM-DD HH:mm:ss'),
+          update_time: moment(student.update_time).format('YYYY-MM-DD HH:mm:ss'),
+        }));
         this.total = data.count;
       }).catch(e => {
         console.error(e);

@@ -17,14 +17,24 @@
     <a-form-item label="地点">
       <a-input v-decorator="decorator.location" placeholder="地点"/>
     </a-form-item>
-    <!-- 时间选择框 -->
-    <a-form-item label="时间">
+    <!-- 开始时间选择框 -->
+    <a-form-item label="开始">
       <a-date-picker
-        v-decorator="decorator.date"
-        :disabled-date="disableDate"
-        value-format="YYYY-MM-DD HH:mm:ss"
+        v-decorator="decorator.startdate"
+        format="YYYY-MM-DD HH:mm:ss"
+        show-time
         style="width: 100%"
-        placeholder="选择比赛时间"
+        placeholder="选择开始时间"
+      />
+    </a-form-item>
+    <!-- 结束时间选择框 -->
+    <a-form-item label="截止">
+      <a-date-picker
+        v-decorator="decorator.enddate"
+        format="YYYY-MM-DD HH:mm:ss"
+        show-time
+        style="width: 100%"
+        placeholder="选择截止时间"
       />
     </a-form-item>
     <!-- 类别选择框 -->
@@ -70,17 +80,18 @@ export default {
   },
   methods: {
     // 禁用日期函数，禁止选择今天之前的日期
-    disableDate(cur) {
-      const yesterday = dayjs().startOf('day');
-      return cur.isSameOrBefore(yesterday);
-    },
+    // disableDate(cur) {
+    //   const yesterday = dayjs().startOf('day');
+    //   return cur.isSameOrBefore(yesterday);
+    // },
     // 初始化表单数据
     initData() {
       const { data } = this;
       this.form.setFieldsValue({
         title: data.title,
         sponsor: data.sponsor,
-        date: data.date,
+        startdate: dayjs(data.startdate),
+        enddate: dayjs(data.enddate),
         location: data.location,
         level: data.level,
         type: data.type,
@@ -104,12 +115,29 @@ const decorator = {
       message: '请输入主办方！',
     }],
   }],
-  date: ['date', {
-    rules: [{
-      required: true,
-      message: '选择时间！',
-    }],
+  startdate: ['startdate', {
+    rules: [
+      {
+        required: true,
+        message: '请选择开始时间！',
+
+      },
+    ],
   }],
+  enddate: ['enddate', {
+    rules: [
+      {
+        required: true,
+        message: '请选择结束时间！',
+      },
+    ],
+  }],
+  // date: ['date', {
+  //   rules: [{
+  //     required: true,
+  //     message: '选择时间！',
+  //   }],
+  // }],
   location: ['location', {
     rules: [{
       required: true,
