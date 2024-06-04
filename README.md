@@ -17,7 +17,7 @@
 **由于本人水平有限在项目构建过程中借助了许多网上教程和**`ChatGPT`帮助我快速调试bug和优化代码风格 **主要调试软件edge浏览器来测试前端网页，`postman`来测试后端请求**
 
 ## 项目总结构
-+[后端项目地址](https://github.com/nxc2003/competition-server)
+[后端项目地址](https://github.com/nxc2003/competition-server)
 ## 前端
 
 * **`competition_system/`**：前端系统
